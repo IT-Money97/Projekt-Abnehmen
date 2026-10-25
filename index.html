@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f5ef">
+  <meta name="description" content="Dein persönlicher Ernährungs- und Abnehmtracker.">
+  <title>Balance – dein Ernährungsbegleiter</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Balance Startseite">
+        <span class="brand-mark">b.</span>
+        <span>balance<span class="brand-dot">.</span></span>
+      </a>
+      <button class="date-button" id="date-button" aria-label="Datum anzeigen">
+        <span class="calendar-icon">▦</span><span id="today-label"></span>
+      </button>
+      <button class="avatar" data-view="profil" aria-label="Profil öffnen">T</button>
+    </header>
+
+    <main id="main-content">
+      <section class="view active" id="view-heute">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow" id="greeting">GUTEN MORGEN</p>
+            <h1>Dein Tag,<br><span>dein Tempo.</span></h1>
+          </div>
+          <div class="streak"><span>✦</span><strong>1</strong><small>TAG</small></div>
+        </div>
+
+        <section class="calorie-card card">
+          <div class="card-heading"><div><p class="eyebrow">HEUTE · KALORIEN</p><h2>Dein Überblick</h2></div><span class="more-icon">···</span></div>
+          <div class="calorie-content">
+            <div class="ring" id="calorie-ring" role="img" aria-label="Kalorienfortschritt">
+              <div class="ring-center"><strong id="calories-eaten">0</strong><span>kcal gegessen</span></div>
+            </div>
+            <div class="calorie-stats">
+              <div><span class="legend-dot green"></span><span>Übrig</span><strong id="calories-left">1.900</strong></div>
+              <div><span class="legend-dot pale"></span><span>Tagesziel</span><strong id="calorie-goal">1.900</strong></div>
+              <p class="goal-note">Richtwert · ca. 0,5 kg/Woche</p>
+            </div>
+          </div>
+          <div class="macro-strip">
+            <div class="macro-item"><span>Eiweiß</span><strong id="protein-total">0 <small>/ 140 g</small></strong><div class="mini-track"><i id="protein-bar"></i></div></div>
+            <div class="macro-item"><span>Kohlenhydrate</span><strong id="carbs-total">0 <small>/ 190 g</small></strong><div class="mini-track"><i id="carbs-bar"></i></div></div>
+            <div class="macro-item"><span>Fett</span><strong id="fat-total">0 <small>/ 65 g</small></strong><div class="mini-track"><i id="fat-bar"></i></div></div>
+          </div>
+        </section>
+
+        <section class="quick-add card">
+          <div class="section-title"><div><p class="eyebrow">ERFASSEN</p><h2>Was hast du gegessen?</h2></div><span class="sparkle">✳</span></div>
+          <form id="food-form" class="food-form">
+            <label class="sr-only" for="food-input">Essen beschreiben</label>
+            <textarea id="food-input" rows="2" placeholder="z. B. 3 Eier, 1 Scheibe Gouda …"></textarea>
+            <div class="form-actions">
+              <button type="button" id="voice-button" class="icon-button" aria-label="Spracheingabe" title="Spracheingabe">◉ <span>Sprache</span></button>
+              <button type="submit" class="add-button">Auswerten <span>↗</span></button>
+            </div>
+          </form>
+          <p class="form-hint" id="input-hint">Sprich natürlich – ich teile dein Essen in einzelne Zutaten auf.</p>
+        </section>
+
+        <section class="meals-section">
+          <div class="section-title meal-title"><div><p class="eyebrow">DEIN TAGEBUCH</p><h2>Heute gegessen</h2></div><button class="text-button" data-view="tagebuch">Alle anzeigen <span>→</span></button></div>
+          <div id="meal-list" class="meal-list"></div>
+        </section>
+
+        <section class="water-card card">
+          <div class="water-copy"><span class="water-icon">◌</span><div><p class="eyebrow">FLÜSSIGKEIT</p><h2><span id="water-total">0</span> <small>/ 2.500 ml</small></h2></div></div>
+          <button class="water-add" id="water-add">+ 250 ml</button>
+          <div class="water-track"><i id="water-bar"></i></div>
+        </section>
+        <p class="disclaimer">Alle Nährwerte sind Schätzungen. Dein Bedarf ist individuell.</p>
+      </section>
+
+      <section class="view" id="view-tagebuch">
+        <div class="page-heading"><p class="eyebrow">DEIN TAGEBUCH</p><h1>Ein Blick zurück.</h1><p>Alles, was du heute für dich getan hast.</p></div>
+        <div class="summary-grid">
+          <div class="summary-card"><span>Kalorien</span><strong id="journal-calories">0</strong><small>kcal heute</small></div>
+          <div class="summary-card"><span>Getrunken</span><strong id="journal-water">0</strong><small>ml heute</small></div>
+        </div>
+        <div class="card nutrient-card"><div class="section-title"><div><p class="eyebrow">NÄHRWERTE</p><h2>Deine Tagesbilanz</h2></div></div><div id="nutrient-list"></div></div>
+        <div class="section-title meal-title"><div><p class="eyebrow">PROTOKOLL</p><h2>Alle Einträge</h2></div></div>
+        <div id="journal-meals" class="meal-list"></div>
+      </section>
+
+      <section class="view" id="view-plan">
+        <div class="page-heading"><p class="eyebrow">DEIN WOHLBEFINDEN</p><h1>Fortschritt,<br><span>nicht Perfektion.</span></h1></div>
+        <section class="card plan-card"><div class="plan-icon">✳</div><p class="eyebrow">DEIN STARTPUNKT</p><h2>Ein realistischer Weg</h2><p>Mit deinen Angaben liegt dein geschätzter Erhaltungsbedarf bei etwa <strong>2.400 kcal pro Tag</strong>. Ein moderates Ziel von rund <strong>1.900 kcal</strong> schafft ein sinnvolles Defizit, ohne Crash-Diät.</p><div class="plan-metric"><span>Orientierung</span><strong>0,5–1 kg <small>pro Woche</small></strong></div><div class="plan-metric"><span>Eiweiß-Ziel</span><strong>ca. 140 g <small>pro Tag</small></strong></div></section>
+        <button class="coach-button" id="coach-button">✳ <span><strong>Plan mit Claude erstellen</strong><small>Individuelle Ideen auf Basis deines Profils</small></span><b>→</b></button>
+        <section class="coach-result card" id="coach-result" hidden aria-live="polite"></section>
+        <section class="card tip-card"><span class="tip-symbol">☀</span><div><p class="eyebrow">KLEINER IMPULS</p><h2>Mach es dir einfach.</h2><p>Plane eine eiweißreiche Mahlzeit vor und fülle deine Wasserflasche morgens. Kleine Routinen schlagen perfekte Tage.</p></div></section>
+        <section class="safety-note"><strong>Zu deinem 3-Wochen-Ziel</strong><p>6 kg in 3 Wochen sind sehr ambitioniert und als Fettverlust nicht realistisch oder sicher planbar. Anfangs kann sich Wassergewicht verändern. Bitte setze nicht auf extreme Einschränkungen; sprich bei einem schnellen Abnehmziel mit medizinischem Fachpersonal.</p></section>
+      </section>
+
+      <section class="view" id="view-profil">
+        <div class="page-heading"><p class="eyebrow">DEIN PROFIL</p><h1>Dein Startpunkt.</h1><p>Deine Angaben bleiben auf diesem Gerät gespeichert.</p></div>
+        <section class="card profile-card">
+          <div class="profile-top"><div class="profile-avatar">T</div><div><p class="eyebrow">DEIN PROFIL</p><h2>Dein persönlicher Plan</h2></div></div>
+          <div class="profile-grid">
+            <div><span>Alter</span><strong>29 Jahre</strong></div><div><span>Geschlecht</span><strong>Männlich</strong></div>
+            <div><span>Größe</span><strong>177 cm</strong></div><div><span>Gewicht</span><strong>107 kg</strong></div>
+            <div><span>Aktivität</span><strong>Überwiegend sitzend</strong></div><div><span>Körperfett</span><strong>30–32 % · Schätzung</strong></div>
+          </div>
+          <div class="profile-foot"><span>Geschätzter Grundumsatz</span><strong>ca. 2.010 kcal/Tag</strong></div>
+        </section>
+        <section class="safety-note"><strong>Hinweis zu deinen Daten</strong><p>Dieses Startprofil ist lokal auf diesem Gerät hinterlegt. Es gibt noch kein Konto oder Cloud-Sync. Nährwert- und Kalorienwerte dienen der Orientierung und ersetzen keine medizinische Beratung.</p></section>
+        <button class="outline-button" id="clear-data">Tagesprotokoll zurücksetzen</button>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Hauptnavigation">
+      <button class="nav-item selected" data-view="heute"><span>⌂</span><small>Heute</small></button>
+      <button class="nav-item" data-view="tagebuch"><span>▤</span><small>Tagebuch</small></button>
+      <button class="nav-item nav-center" data-view="heute" aria-label="Essen hinzufügen"><span>＋</span></button>
+      <button class="nav-item" data-view="plan"><span>✳</span><small>Plan</small></button>
+      <button class="nav-item" data-view="profil"><span>○</span><small>Profil</small></button>
+    </nav>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
