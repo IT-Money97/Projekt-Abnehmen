@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f5f5ef">
   <meta name="description" content="Dein persönlicher Ernährungs- und Abnehmtracker.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Balance">
   <title>Balance – dein Ernährungsbegleiter</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="stylesheet" href="styles.css">
@@ -51,7 +54,7 @@
           </div>
         </section>
 
-        <section class="quick-add card">
+        <section class="quick-add card" id="quick-add">
           <div class="section-title"><div><p class="eyebrow">ERFASSEN</p><h2>Was hast du gegessen?</h2></div><span class="sparkle">✳</span></div>
           <form id="food-form" class="food-form">
             <label class="sr-only" for="food-input">Essen beschreiben</label>
@@ -114,11 +117,19 @@
     </main>
 
     <nav class="bottom-nav" aria-label="Hauptnavigation">
-      <button class="nav-item selected" data-view="heute"><span>⌂</span><small>Heute</small></button>
-      <button class="nav-item" data-view="tagebuch"><span>▤</span><small>Tagebuch</small></button>
-      <button class="nav-item nav-center" data-view="heute" aria-label="Essen hinzufügen"><span>＋</span></button>
-      <button class="nav-item" data-view="plan"><span>✳</span><small>Plan</small></button>
-      <button class="nav-item" data-view="profil"><span>○</span><small>Profil</small></button>
+      <button class="nav-item selected" data-view="heute" aria-current="page">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 10.5 8.5-7 8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3.5 19.5z"/><path d="M9 21v-7h6v7"/></svg><small>Heute</small>
+      </button>
+      <button class="nav-item" data-view="tagebuch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><small>Tagebuch</small>
+      </button>
+      <button class="nav-item nav-center" data-view="heute" aria-label="Essen hinzufügen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="nav-item" data-view="plan">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M6 4.5l12 15M18 4.5l-12 15"/></svg><small>Plan</small>
+      </button>
+      <button class="nav-item" data-view="profil">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-1.5a7 7 0 0 1 14 0V21z"/></svg><small>Profil</small>
+      </button>
     </nav>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>

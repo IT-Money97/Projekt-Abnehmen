@@ -183,9 +183,17 @@ $("#clear-data").addEventListener("click", () => {
 document.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => {
   const view = button.dataset.view;
   document.querySelectorAll(".view").forEach((section) => section.classList.toggle("active", section.id === `view-${view}`));
-  document.querySelectorAll(".nav-item").forEach((item) => item.classList.toggle("selected", item.dataset.view === view));
-  if (view === "heute" && button.classList.contains("nav-center")) { $("#food-input").focus(); $("#food-input").scrollIntoView({ behavior: "smooth", block: "center" }); }
-  else window.scrollTo({ top: 0, behavior: "smooth" });
+  document.querySelectorAll(".nav-item").forEach((item) => {
+    const selected = item.dataset.view === view && !item.classList.contains("nav-center");
+    item.classList.toggle("selected", selected);
+    if (selected) item.setAttribute("aria-current", "page");
+    else item.removeAttribute("aria-current");
+  });
+  const main = $("#main-content");
+  if (view === "heute" && button.classList.contains("nav-center")) {
+    $("#quick-add").scrollIntoView({ behavior: "smooth", block: "center" });
+    $("#food-input").focus({ preventScroll: true });
+  } else main.scrollTo({ top: 0, behavior: "smooth" });
 }));
 
 $("#voice-button").addEventListener("click", () => {

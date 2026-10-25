@@ -46,3 +46,138 @@ h1,h2,p{margin:0}h1{font:700 31px/1.12 Manrope,sans-serif;letter-spacing:-1.1px}
 .toast{position:fixed;z-index:10;bottom:calc(84px + env(safe-area-inset-bottom));left:50%;transform:translate(-50%,12px);opacity:0;pointer-events:none;background:#253e2c;color:white;padding:10px 15px;border-radius:11px;font-size:11px;transition:.2s;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(min-width:700px){body{padding:20px 0}.app-shell{min-height:calc(100dvh - 40px);border-radius:28px;overflow:hidden;box-shadow:0 15px 60px #28362912}.bottom-nav{bottom:20px;border-radius:0 0 28px 28px}}
+
+/* App-sized layout: only the active screen scrolls, between the header and tab bar. */
+:root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",sans-serif;color:#202a22;background:#f3f4ee;--green:#426c4a;--dark:#253e2c;--muted:#899088;--line:#e8e9e2;--paper:#fff;--mint:#e7eee6}
+html,body{width:100%;height:100%;min-height:0;overflow:hidden;overscroll-behavior:none}
+body{min-width:320px;background:#f3f4ee;-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation;-webkit-appearance:none;appearance:none}
+.app-shell{width:100%;max-width:560px;height:100dvh;min-height:0;margin:0 auto;padding:env(safe-area-inset-top) 0 0;display:flex;flex-direction:column;overflow:hidden;background:#f3f4ee}
+.topbar{height:58px;min-height:58px;padding:0 20px;flex:none;background:rgba(243,244,238,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);z-index:2}
+.brand{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;font-size:21px;letter-spacing:-.8px}
+.brand-mark{width:31px;height:31px;border-radius:10px;font-size:18px}
+.date-button{font-size:13px;min-height:44px}
+.avatar{width:36px;height:36px;font-size:14px}
+main{flex:1 1 auto;height:0;min-height:0;padding:0 18px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-padding-block:18px 24px}
+main::-webkit-scrollbar{display:none}
+.view{padding:0 0 24px;min-height:100%}
+.welcome-row{padding:11px 2px 15px}
+h1{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;font-size:clamp(29px,8vw,34px);line-height:1.08;letter-spacing:-1.15px}
+h2{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;font-size:17px;letter-spacing:-.35px}
+.eyebrow{font-size:10px;letter-spacing:1.1px;margin-bottom:6px}
+.streak{height:50px;width:50px;border-radius:16px}
+.card{border-radius:21px;box-shadow:0 2px 12px rgba(39,54,40,.035)}
+.calorie-card{padding:17px 16px 14px}
+.calorie-content{gap:clamp(18px,7vw,30px);padding:12px 2px 15px}
+.ring{width:clamp(126px,38vw,148px);height:clamp(126px,38vw,148px)}
+.ring:before{inset:9px}
+.ring-center strong{font-size:clamp(24px,7vw,29px)}
+.ring-center span{font-size:11px}
+.calorie-stats{gap:12px}
+.calorie-stats>div{font-size:12px;gap:8px}
+.calorie-stats strong{font-size:13px}
+.goal-note{font-size:10px}
+.macro-strip{gap:9px;padding-top:13px}
+.macro-item>span{font-size:10px}
+.macro-item>strong{font-size:12px;margin:5px 0 7px}
+.macro-item strong small{font-size:10px}
+.mini-track,.water-track{height:5px}
+.quick-add{padding:16px;margin-top:12px}
+.food-form{margin-top:12px;border-radius:15px;padding:10px 12px}
+.food-form textarea{font-size:15px;min-height:42px;resize:none}
+.icon-button{font-size:13px;min-height:38px}
+.add-button{border-radius:11px;padding:11px 15px;font-size:13px;min-height:42px}
+.form-hint{font-size:10px;line-height:1.4}
+.meals-section{margin-top:19px}
+.meal-title{margin-bottom:10px}
+.text-button{font-size:12px;min-height:40px}
+.meal-list{gap:8px}
+.empty-meals{padding:15px 13px;border-radius:15px;font-size:12px;line-height:1.45}
+.meal-row{gap:11px;border-radius:15px;padding:10px 12px}
+.meal-emoji{width:38px;height:38px;border-radius:13px;font-size:18px}
+.meal-copy strong{font-size:13px}
+.meal-copy span{font-size:10px}
+.meal-kcal{font-size:13px}
+.meal-kcal small{font-size:9px}
+.meal-details{padding:0 12px 11px}
+.meal-details summary{font-size:11px;padding:4px 0}
+.meal-nutrients span{font-size:9px}
+.meal-nutrients strong{font-size:10px}
+.water-card{margin-top:11px;padding:13px 14px;border-radius:18px;gap:9px}
+.water-icon{width:36px;height:36px;border-radius:12px}
+.water-copy .eyebrow{font-size:9px}
+.water-copy h2{font-size:16px}
+.water-copy h2 small{font-size:11px}
+.water-add{min-height:40px;padding:8px 11px;border-radius:11px;font-size:12px}
+.disclaimer{font-size:10px;margin:10px 0 0;padding-bottom:4px}
+.bottom-nav{position:relative;inset:auto;transform:none;width:100%;height:calc(65px + env(safe-area-inset-bottom));min-height:65px;flex:none;padding:5px 9px calc(5px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);border-top:1px solid rgba(36,53,39,.08);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);box-shadow:0 -5px 18px rgba(30,42,32,.035)}
+.nav-item{flex:1;min-width:0;height:52px;gap:3px;color:#929990}
+.nav-item svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.nav-item small{font-size:10px;font-weight:500}
+.nav-item.selected{color:#345a3d}
+.nav-center{flex:none;width:49px;height:49px;min-width:49px;margin:0 7px;border-radius:17px;background:#345a3d;color:white;box-shadow:0 5px 13px #345a3d30}
+.nav-center svg{width:25px;height:25px;stroke-width:1.8}
+.page-heading{padding:15px 1px 20px}
+.page-heading>p:last-child{font-size:13px;line-height:1.45}
+.page-heading h1{font-size:clamp(29px,8vw,33px)}
+.summary-grid{gap:10px;margin-bottom:12px}
+.summary-card{border-radius:18px;padding:15px}
+.summary-card span,.summary-card small{font-size:12px}
+.summary-card strong{font-size:26px;margin:7px 0 3px}
+.nutrient-card{padding:16px;margin-bottom:16px}
+.nutrient-row{padding:12px 0;font-size:13px}
+.nutrient-row strong{font-size:13px}
+.plan-card{padding:18px;margin-bottom:12px}
+.plan-card>p:not(.eyebrow){font-size:14px;line-height:1.55}
+.plan-metric{font-size:12px}
+.plan-metric strong{font-size:13px}
+.coach-button{border-radius:17px;padding:14px 15px;margin-bottom:12px;min-height:58px}
+.coach-button strong{font-size:13px}
+.coach-button small{font-size:11px}
+.coach-result{padding:17px}
+.coach-result p{font-size:13px;line-height:1.55}
+.tip-card{padding:16px}
+.tip-card p:last-child{font-size:13px;line-height:1.5}
+.safety-note{padding:14px 15px}
+.safety-note strong{font-size:13px}
+.safety-note p{font-size:12px;line-height:1.5}
+.profile-card{padding:17px}
+.profile-top h2{font-size:15px}
+.profile-grid{gap:17px 12px}
+.profile-grid div span{font-size:11px}
+.profile-grid div strong{font-size:13px}
+.profile-foot{font-size:12px}
+.outline-button{min-height:46px;font-size:13px}
+.toast{bottom:calc(78px + env(safe-area-inset-bottom));font-size:13px;padding:12px 16px;border-radius:14px}
+.sr-only{position:absolute}
+@media(max-width:360px){
+  main{padding-right:14px;padding-left:14px}
+  .topbar{padding-right:16px;padding-left:16px}
+  .calorie-card{padding-right:13px;padding-left:13px}
+  .calorie-content{gap:14px}
+  .macro-strip{gap:6px}
+  .macro-item>span{font-size:9px}
+  .nav-center{margin:0 3px}
+}
+@media(max-height:720px){
+  .topbar{height:52px;min-height:52px}
+  .welcome-row{padding-top:7px;padding-bottom:10px}
+  h1{font-size:28px}
+  .calorie-card{padding-top:13px;padding-bottom:11px}
+  .calorie-content{padding-top:8px;padding-bottom:10px}
+  .ring{width:118px;height:118px}
+  .quick-add{padding:13px;margin-top:9px}
+  .food-form{margin-top:8px}
+  .meals-section{margin-top:13px}
+  .page-heading{padding-top:10px;padding-bottom:14px}
+}
+@media(min-width:700px){
+  body{padding:0}
+  .app-shell{height:min(940px,calc(100dvh - 40px));min-height:0;border-radius:30px;box-shadow:0 15px 60px #28362918}
+  .topbar{border-radius:30px 30px 0 0}
+  .bottom-nav{border-radius:0 0 30px 30px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .view.active{animation:screen-in .18s ease-out}
+  @keyframes screen-in{from{opacity:.7;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+}

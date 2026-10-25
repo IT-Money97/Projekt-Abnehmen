@@ -4,7 +4,7 @@ Mobile-first Ernährungs-Tracker als installierbare Web-App. Das Profil und das 
 
 ## GitHub Pages bereitstellen
 
-Im Repository unter **Settings → Pages → Build and deployment → Source** die Option **GitHub Actions** auswählen. Der Workflow in `.github/workflows/pages.yml` veröffentlicht die App nach jedem Push auf `main`. Danach ist sie unter `https://it-money97.github.io/Projekt-Abnehmen/` erreichbar. Am Handy den Link in Safari/Chrome öffnen und über das Browser-Menü **Zum Home-Bildschirm** / **Installieren** wählen.
+Im Repository unter **Settings → Pages → Build and deployment → Source** die Option **GitHub Actions** auswählen. Der Workflow in `.github/workflows/pages.yml` veröffentlicht die App nach jedem Push auf `main`. Danach ist sie unter `https://it-money97.github.io/Projekt-Abnehmen/` erreichbar. Am iPhone den Link in Safari öffnen, **Teilen → Zum Home-Bildschirm** wählen und Balance von dort starten. Im installierten Modus nutzt die Oberfläche den Bildschirm samt iPhone-Safe-Areas und einer nativen Tab-Leiste.
 
 GitHub Pages ist statisches Hosting: Tagebuch und Profil werden weiterhin nur lokal im Browser auf dem jeweiligen Gerät gespeichert. Claude-API und Konten-/Gerätesynchronisierung laufen dort nicht. Für geräteübergreifende Synchronisierung wäre ein Datenbank-/Auth-Backend nötig; Supabase ist für den ersten Einsatz nicht erforderlich.
 
