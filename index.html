@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="Balance">
   <title>Balance – dein Ernährungsbegleiter</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <div class="app-shell">
@@ -73,7 +73,7 @@
         </section>
 
         <section class="water-card card">
-          <div class="water-copy"><span class="water-icon">◌</span><div><p class="eyebrow">FLÜSSIGKEIT</p><h2><span id="water-total">0</span> <small>/ 2.500 ml</small></h2></div></div>
+          <div class="water-copy"><span class="water-icon">◌</span><div><p class="eyebrow">FLÜSSIGKEIT</p><h2><span id="water-total">0</span> <small>/ <span id="water-card-goal">2.500 ml</span></small></h2></div></div>
           <button class="water-add" id="water-add">+ 250 ml</button>
           <div class="water-track"><i id="water-bar"></i></div>
         </section>
@@ -93,7 +93,7 @@
 
       <section class="view" id="view-plan">
         <div class="page-heading"><p class="eyebrow">DEIN WOHLBEFINDEN</p><h1>Fortschritt,<br><span>nicht Perfektion.</span></h1></div>
-        <section class="card plan-card"><div class="plan-icon">✳</div><p class="eyebrow">DEIN STARTPUNKT</p><h2>Ein realistischer Weg</h2><p>Mit deinen Angaben liegt dein geschätzter Erhaltungsbedarf bei etwa <strong>2.400 kcal pro Tag</strong>. Ein moderates Ziel von rund <strong>1.900 kcal</strong> schafft ein sinnvolles Defizit, ohne Crash-Diät.</p><div class="plan-metric"><span>Orientierung</span><strong>0,5–1 kg <small>pro Woche</small></strong></div><div class="plan-metric"><span>Eiweiß-Ziel</span><strong>ca. 140 g <small>pro Tag</small></strong></div></section>
+        <section class="card plan-card"><div class="plan-icon">✳</div><p class="eyebrow">DEIN STARTPUNKT</p><h2>Ein realistischer Weg</h2><p>Dein geschätzter Erhaltungsbedarf liegt bei etwa <strong id="maintenance-calories">2.400 kcal pro Tag</strong>. Ein moderates Ziel von rund <strong id="plan-calorie-goal">1.900 kcal</strong> schafft ein sinnvolles Defizit, ohne Crash-Diät.</p><div class="plan-metric"><span>Orientierung</span><strong>0,5–1 kg <small>pro Woche</small></strong></div><div class="plan-metric"><span>Eiweiß-Ziel</span><strong id="plan-protein-goal">ca. 140 g <small>pro Tag</small></strong></div></section>
         <button class="coach-button" id="coach-button">✳ <span><strong>Plan mit Claude erstellen</strong><small>Individuelle Ideen auf Basis deines Profils</small></span><b>→</b></button>
         <section class="coach-result card" id="coach-result" hidden aria-live="polite"></section>
         <section class="card tip-card"><span class="tip-symbol">☀</span><div><p class="eyebrow">KLEINER IMPULS</p><h2>Mach es dir einfach.</h2><p>Plane eine eiweißreiche Mahlzeit vor und fülle deine Wasserflasche morgens. Kleine Routinen schlagen perfekte Tage.</p></div></section>
@@ -105,11 +105,21 @@
         <section class="card profile-card">
           <div class="profile-top"><div class="profile-avatar">T</div><div><p class="eyebrow">DEIN PROFIL</p><h2>Dein persönlicher Plan</h2></div></div>
           <div class="profile-grid">
-            <div><span>Alter</span><strong>29 Jahre</strong></div><div><span>Geschlecht</span><strong>Männlich</strong></div>
-            <div><span>Größe</span><strong>177 cm</strong></div><div><span>Gewicht</span><strong>107 kg</strong></div>
-            <div><span>Aktivität</span><strong>Überwiegend sitzend</strong></div><div><span>Körperfett</span><strong>30–32 % · Schätzung</strong></div>
+            <div><span>Alter</span><strong id="profile-age">29 Jahre</strong></div><div><span>Geschlecht</span><strong id="profile-sex">Männlich</strong></div>
+            <div><span>Größe</span><strong id="profile-height">177 cm</strong></div><div><span>Gewicht</span><strong id="profile-weight">107 kg</strong></div>
+            <div><span>Aktivität</span><strong id="profile-activity">Überwiegend sitzend</strong></div><div><span>Körperfett</span><strong id="profile-fat">30–32 % · Schätzung</strong></div>
           </div>
-          <div class="profile-foot"><span>Geschätzter Grundumsatz</span><strong>ca. 2.010 kcal/Tag</strong></div>
+          <div class="profile-foot"><span>Geschätzter Grundumsatz</span><strong id="profile-bmr">ca. 2.010 kcal/Tag</strong></div>
+        </section>
+        <button class="profile-action" id="edit-profile">Profil bearbeiten <span>›</span></button>
+        <section class="card weight-card">
+          <div class="weight-heading"><div><p class="eyebrow">DEIN VERLAUF</p><h2>Gewicht</h2></div><button class="small-action" id="add-weight">+ Eintragen</button></div>
+          <div class="weight-current"><strong id="current-weight">107 kg</strong><span>Letzter Eintrag</span></div>
+          <div id="weight-history" class="weight-history"></div>
+        </section>
+        <section class="card goals-card">
+          <div><p class="eyebrow">DEINE TAGESZIELE</p><h2>Individuell anpassbar</h2><p><span id="settings-calorie-goal">1.900 kcal</span> · <span id="settings-protein-goal">140 g Eiweiß</span> · <span id="settings-water-goal">2.500 ml Wasser</span></p></div>
+          <button class="small-action" id="edit-goals">Ändern</button>
         </section>
         <section class="safety-note"><strong>Hinweis zu deinen Daten</strong><p>Dieses Startprofil ist lokal auf diesem Gerät hinterlegt. Es gibt noch kein Konto oder Cloud-Sync. Nährwert- und Kalorienwerte dienen der Orientierung und ersetzen keine medizinische Beratung.</p></section>
         <button class="outline-button" id="clear-data">Tagesprotokoll zurücksetzen</button>
@@ -132,7 +142,14 @@
       </button>
     </nav>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <dialog class="app-dialog" id="app-dialog" aria-labelledby="dialog-title">
+      <form class="dialog-card" id="dialog-form">
+        <div class="dialog-heading"><h2 id="dialog-title"></h2><button class="dialog-close" type="button" id="dialog-close" aria-label="Schließen">×</button></div>
+        <div id="dialog-content" class="dialog-content"></div>
+        <div id="dialog-actions" class="dialog-actions"></div>
+      </form>
+    </dialog>
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>

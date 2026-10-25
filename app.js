@@ -1,7 +1,8 @@
-const DAILY_GOAL = 1900;
-const WATER_GOAL = 2500;
-const MACRO_GOALS = { protein: 140, carbs: 190, fat: 65 };
 const STORAGE_KEY = "balance-diary-v1";
+const DEFAULTS = {
+  profile: { age: 29, sex: "männlich", height: 177, weight: 107, activity: "sitzend", bodyFat: "30–32 %" },
+  goals: { calories: 1900, protein: 140, carbs: 190, fat: 65, water: 2500 }
+};
 
 const foods = [
   { keys: ["ei", "eier", "eiweißbrot"], name: "Ei, Größe L", icon: "🥚", unit: "Stück", grams: 60, per100: { kcal: 143, protein: 12.6, carbs: 0.7, fat: 9.5, sugar: 0.4, salt: 0.36, fiber: 0 } },
@@ -28,8 +29,15 @@ function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
     const key = new Date().toISOString().slice(0, 10);
-    if (saved.date !== key) return { date: key, meals: [], water: 0 };
-    return { date: key, meals: Array.isArray(saved.meals) ? saved.meals : [], water: Number(saved.water) || 0 };
+    const sameDay = saved.date === key;
+    return {
+      date: key,
+      meals: sameDay && Array.isArray(saved.meals) ? saved.meals : [],
+      water: sameDay ? Number(saved.water) || 0 : 0,
+      profile: { ...DEFAULTS.profile, ...(saved.profile || {}) },
+      goals: { ...DEFAULTS.goals, ...(saved.goals || {}) },
+      weights: Array.isArray(saved.weights) ? saved.weights.filter((entry) => entry && Number(entry.kg) > 0 && entry.date) : []
+    };
   } catch (error) {
     console.error("Tagesprotokoll konnte nicht geladen werden.", error);
     return { date: new Date().toISOString().slice(0, 10), meals: [], water: 0 };
@@ -48,22 +56,37 @@ function totals() {
   }, { kcal: 0, protein: 0, carbs: 0, fat: 0, sugar: 0, salt: 0, fiber: 0 });
 }
 
+function basalMetabolicRate() {
+  const p = state.profile;
+  const offset = p.sex === "männlich" ? 5 : p.sex === "weiblich" ? -161 : -78;
+  return Math.round(10 * p.weight + 6.25 * p.height - 5 * p.age + offset);
+}
+
+function activityFactor() {
+  return state.profile.activity === "leicht" ? 1.375 : state.profile.activity === "mittel" ? 1.55 : 1.2;
+}
+
 function render() {
   const t = totals();
+  const goals = state.goals;
+  const profile = state.profile;
   $("#calories-eaten").textContent = Math.round(t.kcal).toLocaleString("de-DE");
-  $("#calories-left").textContent = Math.max(0, DAILY_GOAL - Math.round(t.kcal)).toLocaleString("de-DE");
-  $("#calorie-goal").textContent = DAILY_GOAL.toLocaleString("de-DE");
-  $("#calorie-ring").style.background = `conic-gradient(#557c58 ${Math.min(t.kcal / DAILY_GOAL * 360, 360)}deg,#e8eee7 0deg)`;
+  $("#calories-left").textContent = Math.max(0, goals.calories - Math.round(t.kcal)).toLocaleString("de-DE");
+  $("#calorie-goal").textContent = goals.calories.toLocaleString("de-DE");
+  $("#calorie-ring").style.background = `conic-gradient(#557c58 ${Math.min(t.kcal / goals.calories * 360, 360)}deg,#e8eee7 0deg)`;
   for (const [key, label] of [["protein", "protein"], ["carbs", "carbs"], ["fat", "fat"]]) {
-    $(`#${label}-total`).innerHTML = `${Math.round(t[key])} <small>/ ${MACRO_GOALS[key]} g</small>`;
-    $(`#${label}-bar`).style.width = `${Math.min(t[key] / MACRO_GOALS[key] * 100, 100)}%`;
+    $(`#${label}-total`).innerHTML = `${Math.round(t[key])} <small>/ ${goals[key]} g</small>`;
+    $(`#${label}-bar`).style.width = `${Math.min(t[key] / goals[key] * 100, 100)}%`;
   }
   $("#water-total").textContent = state.water.toLocaleString("de-DE");
-  $("#water-bar").style.width = `${Math.min(state.water / WATER_GOAL * 100, 100)}%`;
+  $("#water-card-goal").textContent = `${goals.water.toLocaleString("de-DE")} ml`;
+  $("#water-bar").style.width = `${Math.min(state.water / goals.water * 100, 100)}%`;
   $("#journal-calories").textContent = Math.round(t.kcal).toLocaleString("de-DE");
   $("#journal-water").textContent = state.water.toLocaleString("de-DE");
   renderMeals($("#meal-list"));
   renderMeals($("#journal-meals"));
+  renderProfile();
+  renderWeights();
   $("#nutrient-list").innerHTML = [
     ["Eiweiß", t.protein, "g"], ["Kohlenhydrate", t.carbs, "g"], ["Fett", t.fat, "g"],
     ["davon Zucker", t.sugar, "g"], ["Ballaststoffe", t.fiber, "g"], ["Salz", t.salt, "g"]
@@ -75,7 +98,37 @@ function renderMeals(target) {
     target.innerHTML = '<div class="empty-meals">Noch nichts eingetragen – füge deine erste Mahlzeit hinzu.</div>';
     return;
   }
-  target.innerHTML = state.meals.map((meal) => `<article class="meal-entry"><div class="meal-row"><span class="meal-emoji">${escapeHtml(meal.icon || "🍽️")}</span><div class="meal-copy"><strong>${escapeHtml(meal.name)}</strong><span>${escapeHtml(meal.amount || "")} · ${escapeHtml(meal.time || "")} · ${format(meal.protein)} g Eiweiß</span></div><div class="meal-kcal">${Math.round(meal.kcal)}<small>kcal</small></div></div><details class="meal-details"><summary>Nährwerte pro Eintrag</summary><div class="meal-nutrients"><div><span>Eiweiß</span><strong>${format(meal.protein)} g</strong></div><div><span>Kohlenhydrate</span><strong>${format(meal.carbs)} g</strong></div><div><span>Fett</span><strong>${format(meal.fat)} g</strong></div><div><span>Zucker</span><strong>${format(meal.sugar)} g</strong></div><div><span>Salz</span><strong>${format(meal.salt)} g</strong></div><div><span>Ballaststoffe</span><strong>${format(meal.fiber)} g</strong></div></div></details></article>`).join("");
+  target.innerHTML = state.meals.map((meal, index) => `<article class="meal-entry"><div class="meal-row"><span class="meal-emoji">${escapeHtml(meal.icon || "🍽️")}</span><div class="meal-copy"><strong>${escapeHtml(meal.name)}</strong><span>${escapeHtml(meal.amount || "")} · ${escapeHtml(meal.time || "")} · ${format(meal.protein)} g Eiweiß</span></div><div class="meal-kcal">${Math.round(meal.kcal)}<small>kcal</small></div><button type="button" class="meal-options" data-meal-index="${index}" aria-label="${escapeHtml(meal.name)} bearbeiten">···</button></div><details class="meal-details"><summary>Nährwerte pro Eintrag</summary><div class="meal-nutrients"><div><span>Eiweiß</span><strong>${format(meal.protein)} g</strong></div><div><span>Kohlenhydrate</span><strong>${format(meal.carbs)} g</strong></div><div><span>Fett</span><strong>${format(meal.fat)} g</strong></div><div><span>Zucker</span><strong>${format(meal.sugar)} g</strong></div><div><span>Salz</span><strong>${format(meal.salt)} g</strong></div><div><span>Ballaststoffe</span><strong>${format(meal.fiber)} g</strong></div></div></details></article>`).join("");
+}
+
+function renderProfile() {
+  const p = state.profile;
+  $("#profile-age").textContent = `${p.age} Jahre`;
+  $("#profile-sex").textContent = p.sex.charAt(0).toLocaleUpperCase("de-DE") + p.sex.slice(1);
+  $("#profile-height").textContent = `${p.height} cm`;
+  $("#profile-weight").textContent = `${format(p.weight)} kg`;
+  $("#profile-activity").textContent = p.activity === "sitzend" ? "Überwiegend sitzend" : p.activity === "leicht" ? "Leicht aktiv" : "Mäßig aktiv";
+  $("#profile-fat").textContent = `${p.bodyFat || "—"} · Schätzung`;
+  $("#profile-bmr").textContent = `ca. ${basalMetabolicRate().toLocaleString("de-DE")} kcal/Tag`;
+  $("#maintenance-calories").textContent = `ca. ${Math.round(basalMetabolicRate() * activityFactor()).toLocaleString("de-DE")} kcal pro Tag`;
+  $("#plan-calorie-goal").textContent = `${state.goals.calories.toLocaleString("de-DE")} kcal`;
+  $("#plan-protein-goal").innerHTML = `ca. ${state.goals.protein} g <small>pro Tag</small>`;
+  $("#settings-calorie-goal").textContent = `${state.goals.calories.toLocaleString("de-DE")} kcal`;
+  $("#settings-protein-goal").textContent = `${state.goals.protein} g Eiweiß`;
+  $("#settings-water-goal").textContent = `${state.goals.water.toLocaleString("de-DE")} ml Wasser`;
+}
+
+function renderWeights() {
+  const entries = [...state.weights].sort((a, b) => b.date.localeCompare(a.date));
+  $("#current-weight").textContent = `${format(entries[0]?.kg ?? state.profile.weight)} kg`;
+  $("#weight-history").innerHTML = entries.length
+    ? entries.slice(0, 5).map((entry, index) => {
+      const previous = entries[index + 1];
+      const difference = previous ? Number(entry.kg) - Number(previous.kg) : 0;
+      const delta = previous ? `<small class="${difference <= 0 ? "weight-down" : "weight-up"}">${difference > 0 ? "+" : ""}${format(difference)} kg</small>` : "";
+      return `<div class="weight-entry"><span>${new Intl.DateTimeFormat("de-DE", { day: "numeric", month: "short" }).format(new Date(`${entry.date}T12:00:00`))}</span><strong>${format(entry.kg)} kg</strong>${delta}</div>`;
+    }).join("")
+    : '<p class="weight-empty">Trage dein Gewicht ein, um deinen Verlauf zu starten.</p>';
 }
 
 function format(value) { return (Math.round((Number(value) || 0) * 10) / 10).toLocaleString("de-DE"); }
@@ -155,7 +208,123 @@ function normalizeAiItem(item) {
   return clean;
 }
 
-$("#water-add").addEventListener("click", () => { state.water += 250; saveState(); render(); showToast("250 ml Wasser eingetragen."); });
+function openDialog(title, mode, content, actions) {
+  $("#dialog-title").textContent = title;
+  $("#dialog-content").innerHTML = content;
+  $("#dialog-actions").innerHTML = actions;
+  $("#dialog-form").dataset.dialogMode = mode;
+  $("#app-dialog").showModal();
+}
+
+function closeDialog() { $("#app-dialog").close(); }
+
+$("#dialog-close").addEventListener("click", closeDialog);
+$("#app-dialog").addEventListener("click", (event) => {
+  if (event.target === $("#app-dialog")) closeDialog();
+});
+
+$("#dialog-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const values = new FormData(form);
+  const action = event.submitter?.value || "save";
+  const mode = form.dataset.dialogMode;
+
+  if (action === "cancel") { closeDialog(); return; }
+  if (mode === "meal-delete") {
+    state.meals.splice(Number(form.dataset.mealIndex), 1);
+    saveState(); render(); closeDialog(); showToast("Eintrag gelöscht."); return;
+  }
+  if (mode === "meal") {
+    const index = Number(form.dataset.mealIndex);
+    const keys = ["kcal", "protein", "carbs", "fat", "sugar", "salt", "fiber"];
+    const meal = { ...state.meals[index], name: String(values.get("name")).trim(), amount: String(values.get("amount")).trim() };
+    for (const key of keys) meal[key] = Number(values.get(key));
+    if (!meal.name || !meal.amount || keys.some((key) => !Number.isFinite(meal[key]) || meal[key] < 0)) { showToast("Bitte prüfe Name, Menge und Nährwerte."); return; }
+    state.meals[index] = meal;
+    saveState(); render(); closeDialog(); showToast("Eintrag aktualisiert."); return;
+  }
+  if (mode === "profile") {
+    const profile = {
+      age: Number(values.get("age")), sex: String(values.get("sex")), height: Number(values.get("height")),
+      weight: Number(values.get("weight")), activity: String(values.get("activity")), bodyFat: String(values.get("bodyFat")).trim()
+    };
+    if (profile.age < 18 || profile.age > 120 || profile.height < 100 || profile.height > 250 || profile.weight < 30 || profile.weight > 400) { showToast("Bitte prüfe Alter, Größe und Gewicht."); return; }
+    state.profile = profile;
+    saveState(); render(); closeDialog(); showToast("Profil gespeichert."); return;
+  }
+  if (mode === "goals") {
+    const goals = { calories: Number(values.get("calories")), protein: Number(values.get("protein")), carbs: Number(values.get("carbs")), fat: Number(values.get("fat")), water: Number(values.get("water")) };
+    if (goals.calories < 800 || goals.calories > 10000 || goals.protein < 1 || goals.protein > 1000 || goals.carbs < 1 || goals.carbs > 1500 || goals.fat < 1 || goals.fat > 1000 || goals.water < 250 || goals.water > 10000) { showToast("Bitte prüfe die Zielwerte."); return; }
+    state.goals = goals;
+    saveState(); render(); closeDialog(); showToast("Tagesziele gespeichert."); return;
+  }
+  if (mode === "weight") {
+    const kg = Number(values.get("kg"));
+    const date = String(values.get("date"));
+    if (!Number.isFinite(kg) || kg < 30 || kg > 400 || !date || date > new Date().toISOString().slice(0, 10)) { showToast("Bitte prüfe Gewicht und Datum."); return; }
+    const existing = state.weights.findIndex((entry) => entry.date === date);
+    const entry = { kg, date };
+    if (existing >= 0) state.weights[existing] = entry;
+    else state.weights.push(entry);
+    state.profile.weight = kg;
+    saveState(); render(); closeDialog(); showToast("Gewicht gespeichert."); return;
+  }
+  if (mode === "water") {
+    const ml = Number(values.get("ml"));
+    if (!Number.isFinite(ml) || ml < 1 || ml > 5000) { showToast("Bitte gib eine Trinkmenge von 1 bis 5.000 ml ein."); return; }
+    state.water += ml;
+    saveState(); render(); closeDialog(); showToast(`${ml} ml eingetragen.`); return;
+  }
+});
+
+document.querySelectorAll(".meal-list").forEach((list) => list.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-meal-index]");
+  if (!button) return;
+  const index = Number(button.dataset.mealIndex);
+  const meal = state.meals[index];
+  if (!meal) return;
+  $("#dialog-form").dataset.mealIndex = String(index);
+  openDialog("Eintrag bearbeiten", "meal", `
+    <label class="dialog-field">Lebensmittel<input name="name" maxlength="100" required value="${escapeHtml(meal.name)}"></label>
+    <label class="dialog-field">Menge<input name="amount" maxlength="60" required value="${escapeHtml(meal.amount || "")}"></label>
+    <div class="dialog-field-grid">${[
+      ["kcal", "Kalorien (kcal)"], ["protein", "Eiweiß (g)"], ["carbs", "Kohlenhydrate (g)"],
+      ["fat", "Fett (g)"], ["sugar", "Zucker (g)"], ["salt", "Salz (g)"], ["fiber", "Ballaststoffe (g)"]
+    ].map(([key, label]) => `<label class="dialog-field">${label}<input name="${key}" type="number" min="0" max="5000" step="any" required value="${Number(meal[key]) || 0}"></label>`).join("")}</div>`,
+  '<button class="dialog-danger" type="button" id="delete-meal">Löschen</button><span class="dialog-spacer"></span><button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+  $("#delete-meal").addEventListener("click", () => {
+    $("#dialog-form").dataset.mealIndex = String(index);
+    openDialog("Eintrag löschen?", "meal-delete", `<p class="dialog-copy">${escapeHtml(meal.name)} wird aus dem heutigen Tagebuch entfernt.</p>`, '<button class="dialog-secondary" type="submit" value="cancel">Behalten</button><button class="dialog-danger" type="submit" value="delete">Löschen</button>');
+  }, { once: true });
+}));
+
+$("#water-add").addEventListener("click", () => {
+  openDialog("Wasser eintragen", "water", '<p class="dialog-copy">Wie viel hast du getrunken?</p><label class="dialog-field">Menge in ml<input name="ml" type="number" inputmode="numeric" min="1" max="5000" step="1" value="250" required></label>', '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Eintragen</button>');
+});
+
+$("#edit-goals").addEventListener("click", () => {
+  const g = state.goals;
+  openDialog("Tagesziele anpassen", "goals", `<p class="dialog-copy">Orientierungswerte – du kannst sie jederzeit ändern.</p><div class="dialog-field-grid">${[
+    ["calories", "Kalorien (kcal)", g.calories], ["protein", "Eiweiß (g)", g.protein], ["carbs", "Kohlenhydrate (g)", g.carbs], ["fat", "Fett (g)", g.fat], ["water", "Wasser (ml)", g.water]
+  ].map(([name, label, value]) => `<label class="dialog-field">${label}<input name="${name}" type="number" min="1" max="10000" step="1" value="${value}" required></label>`).join("")}</div>`, '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+});
+
+$("#edit-profile").addEventListener("click", () => {
+  const p = state.profile;
+  openDialog("Profil bearbeiten", "profile", `<div class="dialog-field-grid">
+    <label class="dialog-field">Alter<input name="age" type="number" min="18" max="120" value="${p.age}" required></label>
+    <label class="dialog-field">Geschlecht<select name="sex"><option ${p.sex === "männlich" ? "selected" : ""}>männlich</option><option ${p.sex === "weiblich" ? "selected" : ""}>weiblich</option><option ${p.sex === "divers" ? "selected" : ""}>divers</option></select></label>
+    <label class="dialog-field">Größe (cm)<input name="height" type="number" min="100" max="250" value="${p.height}" required></label>
+    <label class="dialog-field">Gewicht (kg)<input name="weight" type="number" min="30" max="400" step="0.1" value="${p.weight}" required></label>
+    <label class="dialog-field">Aktivität<select name="activity"><option value="sitzend" ${p.activity === "sitzend" ? "selected" : ""}>Überwiegend sitzend</option><option value="leicht" ${p.activity === "leicht" ? "selected" : ""}>Leicht aktiv</option><option value="mittel" ${p.activity === "mittel" ? "selected" : ""}>Mäßig aktiv</option></select></label>
+    <label class="dialog-field">Körperfett (%)<input name="bodyFat" maxlength="20" value="${escapeHtml(p.bodyFat)}" placeholder="optional"></label>
+  </div>`, '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+});
+
+$("#add-weight").addEventListener("click", () => {
+  openDialog("Gewicht eintragen", "weight", `<p class="dialog-copy">Ein Eintrag pro Tag. Der Verlauf bleibt auf diesem Gerät gespeichert.</p><div class="dialog-field-grid"><label class="dialog-field">Gewicht (kg)<input name="kg" type="number" inputmode="decimal" min="30" max="400" step="0.1" value="${state.profile.weight}" required></label><label class="dialog-field">Datum<input name="date" type="date" max="${new Date().toISOString().slice(0, 10)}" value="${new Date().toISOString().slice(0, 10)}" required></label></div>`, '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+});
 $("#coach-button").addEventListener("click", async () => {
   const button = $("#coach-button");
   const result = $("#coach-result");
@@ -163,7 +332,7 @@ $("#coach-button").addEventListener("click", async () => {
   button.querySelector("strong").textContent = "Dein Plan wird erstellt …";
   try {
     if (location.hostname.endsWith("github.io")) throw new Error("Claude benötigt noch einen separaten Server.");
-    const response = await fetch(new URL("api/claude-coach", document.baseURI), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profile: { age: 29, sex: "männlich", heightCm: 177, weightKg: 107, activity: "überwiegend sitzend", goal: "gesund abnehmen" } }) });
+    const response = await fetch(new URL("api/claude-coach", document.baseURI), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profile: { ...state.profile, heightCm: state.profile.height, weightKg: state.profile.weight, activity: state.profile.activity, goal: "gesund abnehmen" } }) });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || "Die Planberatung ist gerade nicht verfügbar.");
     result.innerHTML = `<h2>Dein Impuls für heute</h2><p>${escapeHtml(data.text || "")}</p>`;
