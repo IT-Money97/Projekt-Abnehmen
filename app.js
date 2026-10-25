@@ -3,6 +3,12 @@ const DEFAULTS = {
   profile: { age: 29, sex: "männlich", height: 177, weight: 107, activity: "sitzend", bodyFat: "30–32 %" },
   goals: { calories: 1900, protein: 140, carbs: 190, fat: 65, water: 2500 }
 };
+const FOCUS_ACTIONS = [
+  ["log", "Essen ehrlich eintragen", "Auch Kleinigkeiten zählen – ohne dich dafür zu bewerten."],
+  ["plate", "Eine ausgewogene Mahlzeit planen", "Eiweiß plus Gemüse/Obst und eine sättigende Beilage."],
+  ["move", "Etwas verträgliche Bewegung", "Zum Beispiel ein kurzer Spaziergang; an dein Niveau anpassen."],
+  ["hydrate", "Regelmäßig trinken", "Kein Wasserentzug und keine großen Mengen erzwingen."]
+];
 
 const foods = [
   { keys: ["ei", "eier", "eiweißbrot"], name: "Ei, Größe L", icon: "🥚", unit: "Stück", grams: 60, per100: { kcal: 143, protein: 12.6, carbs: 0.7, fat: 9.5, sugar: 0.4, salt: 0.36, fiber: 0 } },
@@ -25,10 +31,22 @@ const today = new Date();
 $("#today-label").textContent = new Intl.DateTimeFormat("de-DE", { weekday: "short", day: "numeric", month: "short" }).format(today);
 $("#greeting").textContent = `${today.getHours() < 11 ? "GUTEN MORGEN" : today.getHours() < 18 ? "GUTEN TAG" : "GUTEN ABEND"}`;
 
+function dateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function dayNumber(date) {
+  const [year, month, day] = date.split("-").map(Number);
+  return Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+}
+
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    const key = new Date().toISOString().slice(0, 10);
+    const key = dateKey();
     const sameDay = saved.date === key;
     return {
       date: key,
@@ -36,11 +54,16 @@ function loadState() {
       water: sameDay ? Number(saved.water) || 0 : 0,
       profile: { ...DEFAULTS.profile, ...(saved.profile || {}) },
       goals: { ...DEFAULTS.goals, ...(saved.goals || {}) },
-      weights: Array.isArray(saved.weights) ? saved.weights.filter((entry) => entry && Number(entry.kg) > 0 && entry.date) : []
+      weights: Array.isArray(saved.weights) ? saved.weights.filter((entry) => entry && Number(entry.kg) > 0 && entry.date) : [],
+      focusStartDate: /^\d{4}-\d{2}-\d{2}$/.test(saved.focusStartDate || "") ? saved.focusStartDate : key,
+      focusDays: saved.focusDays && typeof saved.focusDays === "object" && !Array.isArray(saved.focusDays) ? saved.focusDays : {}
     };
   } catch (error) {
     console.error("Tagesprotokoll konnte nicht geladen werden.", error);
-    return { date: new Date().toISOString().slice(0, 10), meals: [], water: 0 };
+    return {
+      date: dateKey(), meals: [], water: 0, profile: { ...DEFAULTS.profile },
+      goals: { ...DEFAULTS.goals }, weights: [], focusStartDate: dateKey(), focusDays: {}
+    };
   }
 }
 
@@ -87,10 +110,31 @@ function render() {
   renderMeals($("#journal-meals"));
   renderProfile();
   renderWeights();
+  renderFocusPlan();
   $("#nutrient-list").innerHTML = [
     ["Eiweiß", t.protein, "g"], ["Kohlenhydrate", t.carbs, "g"], ["Fett", t.fat, "g"],
     ["davon Zucker", t.sugar, "g"], ["Ballaststoffe", t.fiber, "g"], ["Salz", t.salt, "g"]
   ].map(([label, value, unit]) => `<div class="nutrient-row"><span>${label}</span><strong>${format(value)} ${unit}</strong></div>`).join("");
+}
+
+function renderFocusPlan() {
+  const todayKey = dateKey();
+  const elapsed = Math.max(0, dayNumber(todayKey) - dayNumber(state.focusStartDate));
+  const day = Math.min(elapsed + 1, 21);
+  const complete = elapsed >= 21;
+  const checkedToday = state.focusDays[todayKey] || {};
+  const checkedCount = FOCUS_ACTIONS.filter(([id]) => checkedToday[id]).length;
+  $("#focus-day-count").textContent = complete ? "ABGESCHLOSSEN" : `TAG ${day} / 21`;
+  $("#focus-title").textContent = complete ? "Dein Fokus geht weiter." : "Drei Wochen. Gute Routinen.";
+  $("#focus-progress-label").textContent = complete ? "21 Tage abgeschlossen" : `Tag ${day} von 21`;
+  $("#focus-progress-bar").style.width = `${Math.min(day / 21 * 100, 100)}%`;
+  document.querySelectorAll("[data-focus-week]").forEach((item) => item.classList.toggle("is-current", Number(item.dataset.focusWeek) === Math.min(Math.ceil(day / 7), 3) && !complete));
+  $("#focus-daily-score").textContent = `${checkedCount}/4`;
+  $("#focus-checklist").innerHTML = FOCUS_ACTIONS.map(([id, title, description]) => `
+    <button type="button" class="focus-task ${checkedToday[id] ? "is-done" : ""}" data-focus-action="${id}" role="checkbox" aria-checked="${Boolean(checkedToday[id])}">
+      <span class="focus-checkmark" aria-hidden="true">${checkedToday[id] ? "✓" : ""}</span>
+      <span class="focus-task-copy"><strong>${title}</strong><small>${description}</small></span>
+    </button>`).join("");
 }
 
 function renderMeals(target) {
@@ -231,6 +275,11 @@ $("#dialog-form").addEventListener("submit", (event) => {
   const mode = form.dataset.dialogMode;
 
   if (action === "cancel") { closeDialog(); return; }
+  if (mode === "focus-restart") {
+    state.focusStartDate = dateKey();
+    state.focusDays = {};
+    saveState(); renderFocusPlan(); closeDialog(); showToast("Dein 21-Tage-Fokus startet heute neu."); return;
+  }
   if (mode === "meal-delete") {
     state.meals.splice(Number(form.dataset.mealIndex), 1);
     saveState(); render(); closeDialog(); showToast("Eintrag gelöscht."); return;
@@ -262,7 +311,7 @@ $("#dialog-form").addEventListener("submit", (event) => {
   if (mode === "weight") {
     const kg = Number(values.get("kg"));
     const date = String(values.get("date"));
-    if (!Number.isFinite(kg) || kg < 30 || kg > 400 || !date || date > new Date().toISOString().slice(0, 10)) { showToast("Bitte prüfe Gewicht und Datum."); return; }
+    if (!Number.isFinite(kg) || kg < 30 || kg > 400 || !date || date > dateKey()) { showToast("Bitte prüfe Gewicht und Datum."); return; }
     const existing = state.weights.findIndex((entry) => entry.date === date);
     const entry = { kg, date };
     if (existing >= 0) state.weights[existing] = entry;
@@ -323,7 +372,22 @@ $("#edit-profile").addEventListener("click", () => {
 });
 
 $("#add-weight").addEventListener("click", () => {
-  openDialog("Gewicht eintragen", "weight", `<p class="dialog-copy">Ein Eintrag pro Tag. Der Verlauf bleibt auf diesem Gerät gespeichert.</p><div class="dialog-field-grid"><label class="dialog-field">Gewicht (kg)<input name="kg" type="number" inputmode="decimal" min="30" max="400" step="0.1" value="${state.profile.weight}" required></label><label class="dialog-field">Datum<input name="date" type="date" max="${new Date().toISOString().slice(0, 10)}" value="${new Date().toISOString().slice(0, 10)}" required></label></div>`, '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+  openDialog("Gewicht eintragen", "weight", `<p class="dialog-copy">Ein Eintrag pro Tag. Der Verlauf bleibt auf diesem Gerät gespeichert.</p><div class="dialog-field-grid"><label class="dialog-field">Gewicht (kg)<input name="kg" type="number" inputmode="decimal" min="30" max="400" step="0.1" value="${state.profile.weight}" required></label><label class="dialog-field">Datum<input name="date" type="date" max="${dateKey()}" value="${dateKey()}" required></label></div>`, '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Speichern</button>');
+});
+
+$("#focus-checklist").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-focus-action]");
+  if (!button) return;
+  const key = dateKey();
+  state.focusDays[key] = state.focusDays[key] || {};
+  const action = button.dataset.focusAction;
+  state.focusDays[key][action] = !state.focusDays[key][action];
+  saveState();
+  renderFocusPlan();
+});
+
+$("#restart-focus").addEventListener("click", () => {
+  openDialog("Fokus neu starten?", "focus-restart", '<p class="dialog-copy">Dein bisheriger Gewichts- und Essensverlauf bleibt erhalten. Nur der 21-Tage-Fokus und seine Tages-Häkchen starten heute neu.</p>', '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="restart">Neu starten</button>');
 });
 $("#coach-button").addEventListener("click", async () => {
   const button = $("#coach-button");
@@ -389,6 +453,7 @@ function showToast(message) {
 }
 
 render();
+saveState();
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
   navigator.serviceWorker.register(new URL("sw.js", document.baseURI)).catch((error) => console.warn("Offline-Modus konnte nicht aktiviert werden.", error));
 }

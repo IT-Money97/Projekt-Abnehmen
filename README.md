@@ -8,7 +8,7 @@ Im Repository unter **Settings → Pages → Build and deployment → Source** d
 
 GitHub Pages ist statisches Hosting: Tagebuch und Profil werden weiterhin nur lokal im Browser auf dem jeweiligen Gerät gespeichert. Claude-API und Konten-/Gerätesynchronisierung laufen dort nicht. Für geräteübergreifende Synchronisierung wäre ein Datenbank-/Auth-Backend nötig; Supabase ist für den ersten Einsatz nicht erforderlich.
 
-Die App erlaubt Profil- und Tageszieländerungen, Gewichtseinträge sowie das Bearbeiten/Löschen einzelner Lebensmittel über mobile Dialogfenster. Diese Daten bleiben ebenfalls lokal auf dem jeweiligen Gerät.
+Die App erlaubt Profil- und Tageszieländerungen, Gewichtseinträge sowie das Bearbeiten/Löschen einzelner Lebensmittel über mobile Dialogfenster. Der 21-Tage-Fokusplan enthält Wochenabschnitte, tägliche abhakbare Gewohnheiten und einen alltagstauglichen Mahlzeiten-Baukasten. Er verspricht keine bestimmte Abnahme und empfiehlt weder extremes Einschränken noch Wasserentzug. Diese Daten bleiben lokal auf dem jeweiligen Gerät.
 
 ## Lokal starten
 

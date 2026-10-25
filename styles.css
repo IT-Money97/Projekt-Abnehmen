@@ -221,3 +221,46 @@ h2{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;font
 .dialog-danger{background:#fae9e5;color:#a13f33}
 .dialog-spacer{flex:1}
 @media(max-width:360px){.dialog-card{padding:16px}.dialog-field-grid{gap:9px}.dialog-actions{gap:6px}.dialog-primary,.dialog-secondary,.dialog-danger{padding:0 10px}}
+.focus-card{margin:0 0 12px;padding:17px;border-radius:22px;background:linear-gradient(145deg,#2f5438,#426c4a);color:#fff;box-shadow:0 10px 24px rgba(41,78,49,.15)}
+.focus-card .eyebrow{color:#d2dfd0;margin:14px 0 7px}
+.focus-card h2{font-size:21px;letter-spacing:-.5px}
+.focus-card-top{display:flex;align-items:center;justify-content:space-between}
+.focus-badge{padding:6px 9px;border:1px solid #ffffff35;border-radius:20px;color:#e4eee2;font-size:9px;font-weight:700;letter-spacing:1px}
+.focus-day-count{font-size:10px;font-weight:700;letter-spacing:.6px;color:#e1ebdf}
+.focus-intro{margin-top:7px;color:#e0e9df;font-size:12px;line-height:1.45}
+.focus-progress{margin-top:17px}
+.focus-progress>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#dfebdc}
+.focus-progress strong{color:white}
+.focus-track{height:6px;margin-top:8px;border-radius:10px;background:#ffffff37;overflow:hidden}
+.focus-track i{display:block;height:100%;width:5%;border-radius:inherit;background:#d1e0a3;transition:width .25s}
+.focus-target{margin-top:15px;padding:12px;border-radius:14px;background:#ffffff13}
+.focus-target strong{font-size:11px}
+.focus-target p{margin-top:5px;color:#e1e9df;font-size:10px;line-height:1.5}
+.week-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0 0 12px}
+.week-step{min-height:97px;padding:10px 9px;border:1px solid #e7ebe4;border-radius:15px;background:#fff;opacity:.72}
+.week-step.is-current{border-color:#a7bca4;background:#f0f5ed;opacity:1;box-shadow:inset 0 0 0 1px #d6e3d3}
+.week-step span,.week-step strong,.week-step small{display:block}
+.week-step span{color:#618063;font-size:8px;font-weight:700;letter-spacing:.7px}
+.week-step strong{margin-top:7px;font-size:10px;line-height:1.25}
+.week-step small{margin-top:5px;color:#899187;font-size:9px;line-height:1.3}
+.daily-focus-card{padding:16px;margin-bottom:12px}
+.daily-score{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#edf2e9;color:#3b6242;font-size:11px;font-weight:700}
+.focus-checklist{display:flex;flex-direction:column;gap:7px;margin-top:13px}
+.focus-task{width:100%;display:flex;align-items:center;gap:11px;padding:10px 11px;border:1px solid #e9ede6;border-radius:14px;background:#fff;text-align:left;color:#29382c;transition:background .15s,border-color .15s}
+.focus-task.is-done{border-color:#dce8d8;background:#f2f6ef}
+.focus-checkmark{width:23px;height:23px;flex:none;border:1.5px solid #ccd5ca;border-radius:8px;display:grid;place-items:center;color:white;font-size:14px;font-weight:700}
+.focus-task.is-done .focus-checkmark{border-color:#4d7552;background:#4d7552}
+.focus-task-copy{min-width:0}
+.focus-task-copy strong,.focus-task-copy small{display:block}
+.focus-task-copy strong{font-size:12px}
+.focus-task-copy small{margin-top:3px;color:#8a9388;font-size:10px;line-height:1.35}
+.focus-footnote{margin-top:10px;color:#8c948a;font-size:10px;line-height:1.45}
+.plate-card{padding:16px;margin-bottom:12px}
+.plate-card h2{font-size:17px;margin-bottom:8px}
+.plate-step{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #eff1ec}
+.plate-step>span{width:29px;height:29px;flex:none;display:grid;place-items:center;border-radius:10px;background:#edf2e9;color:#557859;font-size:10px;font-weight:700}
+.plate-step p strong,.plate-step p small{display:block}
+.plate-step p strong{font-size:12px}
+.plate-step p small{margin-top:3px;color:#899187;font-size:10px;line-height:1.35}
+.hydration-note{margin-top:12px;padding:11px;border-radius:12px;background:#eef4f3;color:#617471;font-size:10px;line-height:1.5}
+.restart-focus{margin:0 0 8px}

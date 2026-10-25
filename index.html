@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="Balance">
   <title>Balance – dein Ernährungsbegleiter</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <div class="app-shell">
@@ -93,11 +93,36 @@
 
       <section class="view" id="view-plan">
         <div class="page-heading"><p class="eyebrow">DEIN WOHLBEFINDEN</p><h1>Fortschritt,<br><span>nicht Perfektion.</span></h1></div>
-        <section class="card plan-card"><div class="plan-icon">✳</div><p class="eyebrow">DEIN STARTPUNKT</p><h2>Ein realistischer Weg</h2><p>Dein geschätzter Erhaltungsbedarf liegt bei etwa <strong id="maintenance-calories">2.400 kcal pro Tag</strong>. Ein moderates Ziel von rund <strong id="plan-calorie-goal">1.900 kcal</strong> schafft ein sinnvolles Defizit, ohne Crash-Diät.</p><div class="plan-metric"><span>Orientierung</span><strong>0,5–1 kg <small>pro Woche</small></strong></div><div class="plan-metric"><span>Eiweiß-Ziel</span><strong id="plan-protein-goal">ca. 140 g <small>pro Tag</small></strong></div></section>
+        <section class="focus-card">
+          <div class="focus-card-top"><span class="focus-badge">21 TAGE</span><span class="focus-day-count" id="focus-day-count">TAG 1 / 21</span></div>
+          <p class="eyebrow">DEIN FOKUSPLAN</p>
+          <h2 id="focus-title">Drei Wochen. Gute Routinen.</h2>
+          <p class="focus-intro">Wir arbeiten an Dingen, die du steuern kannst – nicht an einer Waagen-Garantie.</p>
+          <div class="focus-progress"><div><span>Dein Fortschritt</span><strong id="focus-progress-label">0 von 21 Tagen</strong></div><div class="focus-track"><i id="focus-progress-bar"></i></div></div>
+          <div class="focus-target"><strong>Dein Wunsch: 6 kg in 3 Wochen</strong><p>Ich verstehe, dass dir das wichtig ist. 2 kg pro Woche als Pflicht kann ich nicht als Plan festlegen oder versprechen: Das könnte zu gefährlicher Einschränkung oder Wasserentzug verleiten. Wenn der Termin medizinisch vorgegeben ist, lass dich bitte jetzt ärztlich begleiten.</p></div>
+        </section>
+        <section class="week-steps" aria-label="Die drei Wochen">
+          <article class="week-step" data-focus-week="1"><span>WOCHE 1</span><strong>Rhythmus finden</strong><small>Mahlzeiten und Alltag ehrlich beobachten.</small></article>
+          <article class="week-step" data-focus-week="2"><span>WOCHE 2</span><strong>Routinen wiederholen</strong><small>Einfach planen; Bewegung passend steigern.</small></article>
+          <article class="week-step" data-focus-week="3"><span>WOCHE 3</span><strong>Dranbleiben</strong><small>Nichts verschärfen – Gewohnheiten festigen.</small></article>
+        </section>
+        <section class="card daily-focus-card">
+          <div class="section-title"><div><p class="eyebrow">HEUTE · KLEINE SCHRITTE</p><h2>Was liegt in deiner Hand?</h2></div><span class="daily-score" id="focus-daily-score">0/4</span></div>
+          <div id="focus-checklist" class="focus-checklist"></div>
+          <p class="focus-footnote">Nicht alles muss perfekt sein. Hak nur ab, was du heute wirklich gemacht hast.</p>
+        </section>
+        <section class="card plan-card"><div class="plan-icon">✳</div><p class="eyebrow">DEIN STARTPUNKT</p><h2>Ein realistischer Weg</h2><p>Dein geschätzter Erhaltungsbedarf liegt bei etwa <strong id="maintenance-calories">2.400 kcal pro Tag</strong>. Dein eingestelltes Tagesziel ist <strong id="plan-calorie-goal">1.900 kcal</strong>. Das sind Näherungswerte, keine medizinische Verordnung.</p><div class="plan-metric"><span>Tempo als Orientierung</span><strong>ca. 0,5–1 kg <small>pro Woche</small></strong></div><div class="plan-metric"><span>Eiweiß-Ziel</span><strong id="plan-protein-goal">ca. 140 g <small>pro Tag</small></strong></div></section>
+        <section class="card plate-card">
+          <p class="eyebrow">OHNE KOMPLIZIERTE REZEPTE</p><h2>Ein einfacher Mahlzeiten-Baukasten</h2>
+          <div class="plate-step"><span>01</span><p><strong>Eiweiß dazu</strong><small>z. B. Eier, Magerquark, Thunfisch oder Hähnchen</small></p></div>
+          <div class="plate-step"><span>02</span><p><strong>Gemüse oder Obst ergänzen</strong><small>Was du gern isst – frisch, tiefgekühlt oder als Salat</small></p></div>
+          <div class="plate-step"><span>03</span><p><strong>Sättigende Beilage wählen</strong><small>z. B. Kartoffeln, Reis, Haferflocken oder ein Brötchen</small></p></div>
+          <p class="hydration-note">Trink regelmäßig und orientiere dich an Durst, Wetter und Bewegung. Bitte weder Wasser entziehen noch große Mengen erzwingen – kurzfristiger Wasserverlust ist kein Fettverlust.</p>
+        </section>
         <button class="coach-button" id="coach-button">✳ <span><strong>Plan mit Claude erstellen</strong><small>Individuelle Ideen auf Basis deines Profils</small></span><b>→</b></button>
         <section class="coach-result card" id="coach-result" hidden aria-live="polite"></section>
-        <section class="card tip-card"><span class="tip-symbol">☀</span><div><p class="eyebrow">KLEINER IMPULS</p><h2>Mach es dir einfach.</h2><p>Plane eine eiweißreiche Mahlzeit vor und fülle deine Wasserflasche morgens. Kleine Routinen schlagen perfekte Tage.</p></div></section>
-        <section class="safety-note"><strong>Zu deinem 3-Wochen-Ziel</strong><p>6 kg in 3 Wochen sind sehr ambitioniert und als Fettverlust nicht realistisch oder sicher planbar. Anfangs kann sich Wassergewicht verändern. Bitte setze nicht auf extreme Einschränkungen; sprich bei einem schnellen Abnehmziel mit medizinischem Fachpersonal.</p></section>
+        <section class="card tip-card"><span class="tip-symbol">☀</span><div><p class="eyebrow">WÖCHENTLICHER CHECK</p><h2>Trend statt Tageszahl.</h2><p>Wenn du dich wiegst, dann höchstens wöchentlich unter ähnlichen Bedingungen. Tageswerte schwanken; trag einen Trend ein, keine Bewertung deines Tages.</p></div></section>
+        <button class="outline-button restart-focus" id="restart-focus">21-Tage-Fokus neu starten</button>
       </section>
 
       <section class="view" id="view-profil">
@@ -150,6 +175,6 @@
       </form>
     </dialog>
   </div>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
