@@ -5,9 +5,17 @@ const path = require("node:path");
 const root = __dirname;
 const port = Number(process.env.PORT) || 3000;
 const contentTypes = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".webmanifest": "application/manifest+json", ".svg": "image/svg+xml" };
+const foodSearchRequests = new Map();
+const foodSearchCache = new Map();
+const FOOD_SEARCH_CACHE_TTL_MS = 10 * 60 * 1000;
+const FOOD_SEARCH_CACHE_LIMIT = 500;
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+  if (req.method === "GET" && url.pathname === "/api/food-search") {
+    await handleFoodSearch(req, res, url);
+    return;
+  }
   if (req.method === "POST" && url.pathname === "/api/claude-food") {
     await handleClaude(req, res, "food");
     return;
@@ -32,6 +40,68 @@ const server = http.createServer(async (req, res) => {
     res.end(req.method === "HEAD" ? undefined : data);
   });
 });
+
+async function handleFoodSearch(req, res, requestUrl) {
+  const query = requestUrl.searchParams.get("q")?.trim();
+  if (!query || query.length > 100) {
+    res.writeHead(400, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "Bitte gib einen Suchbegriff mit höchstens 100 Zeichen ein." }));
+    return;
+  }
+  const now = Date.now();
+  const cacheKey = query.toLocaleLowerCase("de-DE").replace(/\s+/g, " ");
+  const cached = foodSearchCache.get(cacheKey);
+  if (cached && cached.expiresAt > now) {
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" }).end(JSON.stringify(cached.data));
+    return;
+  }
+  if (cached) foodSearchCache.delete(cacheKey);
+
+  const client = req.socket.remoteAddress || "unknown";
+  if (foodSearchRequests.size > 1000) {
+    for (const [address, requests] of foodSearchRequests) {
+      if (!requests.some((time) => now - time < 60000)) foodSearchRequests.delete(address);
+    }
+  }
+  const recentRequests = (foodSearchRequests.get(client) || []).filter((time) => now - time < 60000);
+  if (recentRequests.length >= 9) {
+    foodSearchRequests.set(client, recentRequests);
+    res.writeHead(429, { "Content-Type": "application/json", "Retry-After": "60" }).end(JSON.stringify({ error: "Zu viele Suchen in kurzer Zeit. Bitte warte eine Minute." }));
+    return;
+  }
+  recentRequests.push(now);
+  foodSearchRequests.set(client, recentRequests);
+
+  const upstreamUrl = new URL("https://world.openfoodfacts.org/api/v2/search");
+  upstreamUrl.search = new URLSearchParams({
+    search_terms: query,
+    page_size: "20",
+    fields: "product_name,brands,nutriments,quantity,serving_size,code",
+    lc: "de",
+    cc: "de"
+  });
+  try {
+    const upstream = await fetch(upstreamUrl, {
+      headers: { Accept: "application/json", "User-Agent": "BalanceNutritionTracker/1.0" },
+      signal: AbortSignal.timeout(12000)
+    });
+    if (!upstream.ok) {
+      console.warn(`Open Food Facts returned HTTP ${upstream.status}`);
+      const status = upstream.status === 429 || upstream.status === 503 ? 503 : 502;
+      res.writeHead(status, { "Content-Type": "application/json", "Cache-Control": "no-store" }).end(JSON.stringify({ error: "Die öffentliche Nährwertsuche ist gerade nicht verfügbar." }));
+      return;
+    }
+    const data = await upstream.json();
+    if (foodSearchCache.size >= FOOD_SEARCH_CACHE_LIMIT) {
+      const oldestKey = foodSearchCache.keys().next().value;
+      if (oldestKey !== undefined) foodSearchCache.delete(oldestKey);
+    }
+    foodSearchCache.set(cacheKey, { data, expiresAt: now + FOOD_SEARCH_CACHE_TTL_MS });
+    res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" }).end(JSON.stringify(data));
+  } catch (error) {
+    console.error("Open Food Facts request failed:", error.message);
+    res.writeHead(502, { "Content-Type": "application/json", "Cache-Control": "no-store" }).end(JSON.stringify({ error: "Die öffentliche Nährwertsuche ist gerade nicht erreichbar." }));
+  }
+}
 
 async function handleClaude(req, res, mode) {
   const apiKey = process.env.ANTHROPIC_API_KEY;

@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="Balance">
   <title>Balance – dein Ernährungsbegleiter</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=8">
 </head>
 <body>
   <div class="app-shell">
@@ -58,13 +58,14 @@
           <div class="section-title"><div><p class="eyebrow">ERFASSEN</p><h2>Was hast du gegessen?</h2></div><span class="sparkle">✳</span></div>
           <form id="food-form" class="food-form">
             <label class="sr-only" for="food-input">Essen beschreiben</label>
-            <textarea id="food-input" rows="2" placeholder="z. B. 3 Eier, 1 Scheibe Gouda …"></textarea>
+            <textarea id="food-input" rows="2" placeholder="z. B. „2 Eier, einen Döner und Ayran“"></textarea>
             <div class="form-actions">
-              <button type="button" id="voice-button" class="icon-button" aria-label="Spracheingabe" title="Spracheingabe">◉ <span>Sprache</span></button>
+              <button type="button" id="voice-button" class="icon-button" aria-label="Spracheingabe starten" aria-pressed="false" title="Spracheingabe starten">◉ <span>Sprache</span></button>
               <button type="submit" class="add-button">Auswerten <span>↗</span></button>
+              <button type="button" id="online-search" class="online-search-button">Online suchen <span>⌕</span></button>
             </div>
           </form>
-          <p class="form-hint" id="input-hint">Sprich natürlich – ich teile dein Essen in einzelne Zutaten auf.</p>
+          <p class="form-hint" id="input-hint">Sag mehrere Gerichte in einem Satz – Erkannte Zutaten werden übernommen, Unbekanntes online gesucht. Kein API-Key nötig.</p>
         </section>
 
         <section class="meals-section">
@@ -119,7 +120,7 @@
           <div class="plate-step"><span>03</span><p><strong>Sättigende Beilage wählen</strong><small>z. B. Kartoffeln, Reis, Haferflocken oder ein Brötchen</small></p></div>
           <p class="hydration-note">Trink regelmäßig und orientiere dich an Durst, Wetter und Bewegung. Bitte weder Wasser entziehen noch große Mengen erzwingen – kurzfristiger Wasserverlust ist kein Fettverlust.</p>
         </section>
-        <button class="coach-button" id="coach-button">✳ <span><strong>Plan mit Claude erstellen</strong><small>Individuelle Ideen auf Basis deines Profils</small></span><b>→</b></button>
+        <button class="coach-button" id="coach-button">✳ <span><strong>Plan mit Claude erstellen</strong><small>Optional · benötigt einen Server-Schlüssel</small></span><b>→</b></button>
         <section class="coach-result card" id="coach-result" hidden aria-live="polite"></section>
         <section class="card tip-card"><span class="tip-symbol">☀</span><div><p class="eyebrow">WÖCHENTLICHER CHECK</p><h2>Trend statt Tageszahl.</h2><p>Wenn du dich wiegst, dann höchstens wöchentlich unter ähnlichen Bedingungen. Tageswerte schwanken; trag einen Trend ein, keine Bewertung deines Tages.</p></div></section>
         <button class="outline-button restart-focus" id="restart-focus">21-Tage-Fokus neu starten</button>
@@ -175,6 +176,6 @@
       </form>
     </dialog>
   </div>
-  <script src="app.js?v=6"></script>
+  <script src="app.js?v=10"></script>
 </body>
 </html>

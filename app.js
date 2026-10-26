@@ -11,18 +11,33 @@ const FOCUS_ACTIONS = [
 ];
 
 const foods = [
-  { keys: ["ei", "eier", "eiweißbrot"], name: "Ei, Größe L", icon: "🥚", unit: "Stück", grams: 60, per100: { kcal: 143, protein: 12.6, carbs: 0.7, fat: 9.5, sugar: 0.4, salt: 0.36, fiber: 0 } },
+  { keys: ["ei", "eier"], name: "Ei, Größe L", icon: "🥚", unit: "Stück", grams: 60, per100: { kcal: 143, protein: 12.6, carbs: 0.7, fat: 9.5, sugar: 0.4, salt: 0.36, fiber: 0 } },
   { keys: ["thunfisch", "tuna"], name: "Thunfisch im eigenen Saft", icon: "🐟", unit: "Dose", grams: 150, per100: { kcal: 116, protein: 25.5, carbs: 0, fat: 1, sugar: 0, salt: 0.8, fiber: 0 } },
   { keys: ["gouda", "gauda"], name: "Gouda", icon: "🧀", unit: "Scheibe", grams: 25, per100: { kcal: 356, protein: 25, carbs: 0, fat: 27, sugar: 0, salt: 1.8, fiber: 0 } },
   { keys: ["brötchen", "broetchen", "semmel"], name: "Brötchen", icon: "🥖", unit: "Stück", grams: 65, per100: { kcal: 270, protein: 9, carbs: 52, fat: 2, sugar: 3, salt: 1.2, fiber: 3.5 } },
+  { keys: ["eiweißbrot", "eiweissbrot"], name: "Eiweißbrot", icon: "🍞", unit: "Scheibe", grams: 40, per100: { kcal: 260, protein: 22, carbs: 12, fat: 11, sugar: 2, salt: 1.1, fiber: 8 } },
+  { keys: ["brot", "vollkornbrot", "toast"], name: "Brot", icon: "🍞", unit: "Scheibe", grams: 40, per100: { kcal: 247, protein: 9, carbs: 41, fat: 4.2, sugar: 5.5, salt: 1, fiber: 7.5 } },
   { keys: ["salat", "blattsalat"], name: "Salat, gemischt", icon: "🥬", unit: "g", grams: 100, per100: { kcal: 20, protein: 1.5, carbs: 3, fat: 0.2, sugar: 2, salt: 0.04, fiber: 1.5 } },
   { keys: ["haferflocken", "porridge"], name: "Haferflocken", icon: "🥣", unit: "g", grams: 100, per100: { kcal: 372, protein: 13.5, carbs: 58.7, fat: 7, sugar: 1, salt: 0.01, fiber: 10 } },
   { keys: ["banane"], name: "Banane", icon: "🍌", unit: "Stück", grams: 120, per100: { kcal: 89, protein: 1.1, carbs: 22.8, fat: 0.3, sugar: 12.2, salt: 0, fiber: 2.6 } },
   { keys: ["apfel"], name: "Apfel", icon: "🍎", unit: "Stück", grams: 180, per100: { kcal: 52, protein: 0.3, carbs: 13.8, fat: 0.2, sugar: 10.4, salt: 0, fiber: 2.4 } },
-  { keys: ["hähnchen", "haehnchen", "huhn"], name: "Hähnchenbrust", icon: "🍗", unit: "g", grams: 100, per100: { kcal: 165, protein: 31, carbs: 0, fat: 3.6, sugar: 0, salt: 0.07, fiber: 0 } },
+  { keys: ["orange"], name: "Orange", icon: "🍊", unit: "Stück", grams: 150, per100: { kcal: 47, protein: 0.9, carbs: 11.8, fat: 0.1, sugar: 9.4, salt: 0, fiber: 2.4 } },
+  { keys: ["erdbeeren", "erdbeere"], name: "Erdbeeren", icon: "🍓", unit: "g", grams: 100, per100: { kcal: 32, protein: 0.7, carbs: 7.7, fat: 0.3, sugar: 4.9, salt: 0, fiber: 2 } },
+  { keys: ["hähnchen", "haehnchen", "huhn", "hähnchenbrust"], name: "Hähnchenbrust", icon: "🍗", unit: "g", grams: 100, per100: { kcal: 165, protein: 31, carbs: 0, fat: 3.6, sugar: 0, salt: 0.07, fiber: 0 } },
+  { keys: ["lachs", "salmon"], name: "Lachs", icon: "🐟", unit: "g", grams: 100, per100: { kcal: 208, protein: 20.4, carbs: 0, fat: 13.4, sugar: 0, salt: 0.06, fiber: 0 } },
   { keys: ["reis"], name: "Reis, gekocht", icon: "🍚", unit: "g", grams: 100, per100: { kcal: 130, protein: 2.7, carbs: 28, fat: 0.3, sugar: 0.1, salt: 0, fiber: 0.4 } },
+  { keys: ["nudeln", "pasta", "spaghetti"], name: "Nudeln, gekocht", icon: "🍝", unit: "g", grams: 100, per100: { kcal: 157, protein: 5.8, carbs: 30.9, fat: 0.9, sugar: 0.6, salt: 0.01, fiber: 1.8 } },
+  { keys: ["kartoffel", "kartoffeln"], name: "Kartoffeln, gekocht", icon: "🥔", unit: "g", grams: 100, per100: { kcal: 77, protein: 2, carbs: 17, fat: 0.1, sugar: 0.8, salt: 0.01, fiber: 2.2 } },
+  { keys: ["oreo"], name: "Oreo-Kekse, Richtwert", icon: "🍪", unit: "Keks", grams: 11, per100: { kcal: 480, protein: 5.2, carbs: 68, fat: 20, sugar: 38, salt: 0.83, fiber: 2.9 } },
+  { keys: ["tomate", "tomaten"], name: "Tomate", icon: "🍅", unit: "Stück", grams: 120, per100: { kcal: 18, protein: 0.9, carbs: 3.9, fat: 0.2, sugar: 2.6, salt: 0.01, fiber: 1.2 } },
+  { keys: ["gurke", "gurken"], name: "Gurke", icon: "🥒", unit: "g", grams: 100, per100: { kcal: 15, protein: 0.7, carbs: 3.6, fat: 0.1, sugar: 1.7, salt: 0, fiber: 0.5 } },
+  { keys: ["brokkoli"], name: "Brokkoli", icon: "🥦", unit: "g", grams: 100, per100: { kcal: 34, protein: 2.8, carbs: 6.6, fat: 0.4, sugar: 1.7, salt: 0.03, fiber: 2.6 } },
   { keys: ["quark", "magerquark"], name: "Magerquark", icon: "🥛", unit: "g", grams: 100, per100: { kcal: 67, protein: 12, carbs: 4, fat: 0.2, sugar: 4, salt: 0.1, fiber: 0 } },
-  { keys: ["joghurt", "jogurt"], name: "Naturjoghurt", icon: "🥛", unit: "g", grams: 150, per100: { kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, sugar: 4.7, salt: 0.1, fiber: 0 } }
+  { keys: ["skyr"], name: "Skyr", icon: "🥛", unit: "g", grams: 100, per100: { kcal: 63, protein: 11, carbs: 4, fat: 0.2, sugar: 4, salt: 0.1, fiber: 0 } },
+  { keys: ["joghurt", "jogurt"], name: "Naturjoghurt", icon: "🥛", unit: "g", grams: 150, per100: { kcal: 61, protein: 3.5, carbs: 4.7, fat: 3.3, sugar: 4.7, salt: 0.1, fiber: 0 } },
+  { keys: ["milch"], name: "Milch, 3,5 %", icon: "🥛", unit: "ml", grams: 100, per100: { kcal: 64, protein: 3.3, carbs: 4.8, fat: 3.5, sugar: 4.8, salt: 0.1, fiber: 0 } },
+  { keys: ["avocado"], name: "Avocado", icon: "🥑", unit: "g", grams: 100, per100: { kcal: 160, protein: 2, carbs: 8.5, fat: 14.7, sugar: 0.7, salt: 0.02, fiber: 6.7 } },
+  { keys: ["olivenöl", "olivenoel", "öl", "oel"], name: "Olivenöl", icon: "🫒", unit: "TL", grams: 5, per100: { kcal: 884, protein: 0, carbs: 0, fat: 100, sugar: 0, salt: 0, fiber: 0 } }
 ];
 
 const state = loadState();
@@ -178,35 +193,47 @@ function renderWeights() {
 function format(value) { return (Math.round((Number(value) || 0) * 10) / 10).toLocaleString("de-DE"); }
 function escapeHtml(value) { return String(value).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]); }
 
+function splitFoodInput(input) {
+  return input.toLocaleLowerCase("de-DE")
+    .replace(/\b(?:ich habe|ich hatte|ich aß|ich ass|ich esse|ich trank|ich habe heute|heute habe ich)\b/g, " ")
+    .replace(/\b(?:zum frühstück|zum mittagessen|zum abendessen|heute|bitte|gegessen|getrunken|dazu|danach|anschließend|und dann)\b/g, " ")
+    .split(/[,;\n]|\s+(?:und|mit|sowie|plus)\s+/)
+    .map((part) => part.replace(/^[\s.!?]+|[\s.!?]+$/g, "").trim())
+    .filter((part) => part && !/^(?:ein|eine|einen|einem|einer|der|die|das|noch|auch)$/i.test(part));
+}
+
 function localParse(input) {
-  const normalized = input.toLocaleLowerCase("de-DE").replace(/heute gegessen|ich habe gegessen|gegessen|heute|bitte|und dann|danach/g, "");
-  const parts = normalized.split(/[,;\n]|\s+und\s+/).map((part) => part.trim()).filter(Boolean);
+  const parts = splitFoodInput(input);
   const found = [];
   const unknown = [];
   for (const part of parts) {
-    const food = foods.find((item) => item.keys.some((key) => key === "ei" ? /(?:^|\s)ei(?:\s|$)/.test(part) : part.includes(key)));
+    const food = foods.find((item) => item.keys.some((key) => key === "ei" ? /(?:^|\s)ei(?:\s|$)|\beier\b/.test(part) : part.includes(key)));
     if (!food) { unknown.push(part); continue; }
-    const quantityMatch = part.match(/(\d+(?:[.,]\d+)?)\s*(g|gramm|ml|stück|stk|scheiben?|dosen?)?/);
-    const quantity = quantityMatch ? Number(quantityMatch[1].replace(",", ".")) : 1;
+    const quantityMatch = part.match(/\b(\d+(?:[.,]\d+)?|ein(?:e|en|em|er)?|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn)\s*(g|gramm|ml|stück|stk|scheiben?|dosen?|tl|el)?\b/);
+    const numberWords = { ein: 1, eine: 1, einen: 1, einem: 1, einer: 1, zwei: 2, drei: 3, vier: 4, fünf: 5, sechs: 6, sieben: 7, acht: 8, neun: 9, zehn: 10 };
+    const parsedQuantity = quantityMatch ? Number(quantityMatch[1].replace(",", ".")) : NaN;
+    const quantity = Number.isFinite(parsedQuantity) ? parsedQuantity : numberWords[quantityMatch?.[1]] || 1;
     const unit = quantityMatch?.[2] || "";
-    const grams = unit.startsWith("g") || unit === "gramm" ? quantity : food.grams * quantity;
+    const grams = unit.startsWith("g") || unit === "gramm" || unit === "ml" ? quantity : unit === "el" ? 15 * quantity : unit === "tl" ? 5 * quantity : food.grams * quantity;
     const factor = grams / 100;
+    let amountUnit = food.unit;
+    let amountQuantity = quantity;
+    if (!unit && food.unit === "g") amountQuantity = grams;
+    if (unit.startsWith("g") || unit === "gramm") amountUnit = "g";
+    else if (unit === "ml") amountUnit = "ml";
+    else if (unit === "el") amountUnit = "EL";
+    else if (unit === "tl") amountUnit = "TL";
+    else if (unit.startsWith("scheibe")) amountUnit = quantity === 1 ? "Scheibe" : "Scheiben";
+    else if (unit.startsWith("dose")) amountUnit = quantity === 1 ? "Dose" : "Dosen";
+    else if (food.unit === "Keks") amountUnit = quantity === 1 ? "Keks" : "Kekse";
+    else if (["stück", "stk"].includes(unit)) amountUnit = "Stück";
     found.push({
-      name: food.name, icon: food.icon, amount: `${format(quantity)} ${unit && (unit.startsWith("g") || unit === "gramm") ? "g" : food.unit}`,
+      name: food.name, icon: food.icon, amount: `${format(amountQuantity)} ${amountUnit}`,
       kcal: food.per100.kcal * factor, protein: food.per100.protein * factor, carbs: food.per100.carbs * factor,
       fat: food.per100.fat * factor, sugar: food.per100.sugar * factor, salt: food.per100.salt * factor, fiber: food.per100.fiber * factor
     });
   }
   return { found, unknown };
-}
-
-async function parseWithClaude(text) {
-  if (location.hostname.endsWith("github.io")) throw new Error("Claude benötigt noch einen separaten Server.");
-  const response = await fetch(new URL("api/claude-food", document.baseURI), { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text }) });
-  if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || "Claude ist gerade nicht erreichbar.");
-  const result = await response.json();
-  if (!Array.isArray(result.items)) throw new Error("Die Antwort konnte nicht als Lebensmittel-Liste gelesen werden.");
-  return result.items;
 }
 
 $("#food-form").addEventListener("submit", async (event) => {
@@ -217,24 +244,23 @@ $("#food-form").addEventListener("submit", async (event) => {
   button.disabled = true;
   button.textContent = "Wird ausgewertet …";
   try {
-    let result = localParse(input);
-    if (result.unknown.length) {
-      try {
-        const aiItems = await parseWithClaude(input);
-        result = { found: [...result.found, ...aiItems.map(normalizeAiItem)], unknown: [] };
-      } catch (error) {
-        console.info("Claude-Auswertung nicht verfügbar; lokale Schätzung wird verwendet.", error.message);
-        if (!result.found.length) { showToast("Lebensmittel nicht erkannt. Ergänze CLAUDE_API_KEY für die KI-Suche."); return; }
-        showToast(`Unbekannt: ${result.unknown.join(", ")} – bekannte Zutaten wurden erfasst.`);
-      }
-    }
-    if (!result.found.length) { showToast("Ich konnte keine Lebensmittel erkennen. Probiere z. B. „2 Eier, 100 g Salat“."); return; }
+    const result = localParse(input);
+    if (!result.found.length && !result.unknown.length) { showToast("Ich konnte keine Lebensmittel erkennen. Probiere z. B. „2 Eier, 100 g Salat“."); return; }
     const time = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" }).format(new Date());
+    if (result.unknown.length) {
+      if (result.found.length) {
+        state.meals.push(...result.found.map((item) => ({ ...item, time })));
+        saveState();
+        render();
+      }
+      await searchOnlineFoods(result.unknown, result.found.length);
+      return;
+    }
     state.meals.push(...result.found.map((item) => ({ ...item, time })));
     saveState();
     render();
     $("#food-input").value = "";
-    if (!result.unknown.length) showToast(`${result.found.length} ${result.found.length === 1 ? "Lebensmittel" : "Lebensmittel"} hinzugefügt.`);
+    showToast(`${result.found.length} ${result.found.length === 1 ? "Lebensmittel" : "Lebensmittel"} hinzugefügt.`);
   } catch (error) {
     console.error("Lebensmittel konnten nicht hinzugefügt werden.", error);
     showToast("Das hat nicht geklappt. Bitte versuche es erneut.");
@@ -244,12 +270,292 @@ $("#food-form").addEventListener("submit", async (event) => {
   }
 });
 
-function normalizeAiItem(item) {
-  const keys = ["kcal", "protein", "carbs", "fat", "sugar", "salt", "fiber"];
-  const clean = { name: String(item.name || "Lebensmittel"), icon: String(item.icon || "🍽️"), amount: String(item.amount || "Portion") };
-  for (const key of keys) clean[key] = Math.max(0, Number(item[key]) || 0);
-  clean.kcal = Math.min(clean.kcal, 5000);
-  return clean;
+$("#online-search").addEventListener("click", async () => {
+  const query = $("#food-input").value.trim();
+  if (!query) { showToast("Gib zuerst ein Lebensmittel oder Gericht ein."); $("#food-input").focus(); return; }
+  const button = $("#online-search");
+  button.disabled = true;
+  button.textContent = "Suche läuft …";
+  try { await searchOnlineFoods(splitFoodInput(query)); }
+  finally {
+    button.disabled = false;
+    button.innerHTML = "Online suchen <span>⌕</span>";
+  }
+});
+
+function getNutritionPer100g(product) {
+  const nutrients = product.nutriments || {};
+  const readNumber = (raw) => raw === null || raw === undefined || raw === "" ? NaN : Number(raw);
+  const energyKcal = readNumber(nutrients["energy-kcal_100g"]);
+  const energyKj = readNumber(nutrients.energy_100g);
+  const kcal = Number.isFinite(energyKcal) && energyKcal >= 0
+    ? energyKcal
+    : Number.isFinite(energyKj) && energyKj >= 0 ? energyKj / 4.184 : NaN;
+  if (!Number.isFinite(kcal)) return null;
+  const value = (key) => {
+    const amount = readNumber(nutrients[`${key}_100g`]);
+    return Number.isFinite(amount) && amount >= 0 ? amount : 0;
+  };
+  return {
+    kcal,
+    protein: value("proteins"),
+    carbs: value("carbohydrates"),
+    fat: value("fat"),
+    sugar: value("sugars"),
+    salt: value("salt"),
+    fiber: value("fiber")
+  };
+}
+
+function localFoodMatches(query) {
+  const normalized = query.toLocaleLowerCase("de-DE");
+  return foods
+    .filter((food) => food.keys.some((key) => normalized.includes(key)))
+    .map((food) => ({
+      name: food.name,
+      brand: "",
+      quantity: "",
+      servingSize: food.grams === 11 ? "11 g pro Keks" : "",
+      code: "",
+      source: "local",
+      nutrition: food.per100
+    }));
+}
+
+async function requestOnlineFood(query) {
+  const normalizedQuery = query.trim();
+  if (!normalizedQuery) return { query, results: [], error: "Leerer Suchbegriff." };
+  const searchTerms = normalizedQuery
+    .replace(/\b\d+(?:[.,]\d+)?\s*(?:g|gramm|kg)\b/gi, " ")
+    .replace(/^(?:\d+(?:[.,]\d+)?|ein(?:e|en|em|er)?|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn)\s+/i, "")
+    .replace(/^(?:der|die|das|den|dem|des)\s+/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!searchTerms) return { query: normalizedQuery, results: [], error: "Schreib bitte auch den Namen des Lebensmittels dazu." };
+  const localResults = localFoodMatches(normalizedQuery);
+  const url = new URL("https://world.openfoodfacts.org/api/v2/search");
+  url.search = new URLSearchParams({
+    search_terms: searchTerms,
+    page_size: "20",
+    fields: "product_name,brands,nutriments,quantity,serving_size,code",
+    lc: "de",
+    cc: "de"
+  });
+  let response;
+  try {
+    const proxyUrl = new URL("api/food-search", document.baseURI);
+    proxyUrl.searchParams.set("q", searchTerms);
+    const proxyResponse = await fetch(proxyUrl, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
+    if (proxyResponse.headers.get("content-type")?.includes("application/json")) response = proxyResponse;
+  } catch (error) {
+    console.info("Lokaler Such-Proxy ist nicht verfügbar; es wird direkt gesucht.", error.message);
+  }
+  if (!response) {
+    try {
+      response = await fetch(url, { headers: { Accept: "application/json" }, signal: AbortSignal.timeout(12000) });
+    } catch (error) {
+      console.warn("Online-Lebensmittelsuche fehlgeschlagen.", error);
+      return { query: normalizedQuery, results: localResults, error: "Die Online-Suche ist gerade nicht erreichbar." };
+    }
+  }
+  try {
+    if (!response.ok) {
+      console.warn(`Open Food Facts returned HTTP ${response.status}`);
+      return {
+        query: normalizedQuery,
+        results: localResults,
+        error: response.status === 429 || response.status === 503
+          ? "Der Suchdienst ist gerade ausgelastet."
+          : "Die Online-Suche ist fehlgeschlagen."
+      };
+    }
+    const data = await response.json();
+    const onlineResults = (Array.isArray(data?.products) ? data.products : []).flatMap((product) => {
+      const name = String(product.product_name || "").trim();
+      const nutrition = getNutritionPer100g(product);
+      if (!name || !nutrition) return [];
+      return [{
+        name,
+        brand: String(product.brands || "").trim(),
+        quantity: String(product.quantity || "").trim(),
+        servingSize: String(product.serving_size || "").trim(),
+        code: /^\d{6,14}$/.test(String(product.code || "")) ? String(product.code) : "",
+        source: "online",
+        nutrition
+      }];
+    });
+    const searchTokens = searchTerms.toLocaleLowerCase("de-DE").split(/\s+/);
+    onlineResults.sort((a, b) => {
+      const score = (item) => {
+        const text = `${item.name} ${item.brand}`.toLocaleLowerCase("de-DE");
+        return searchTokens.reduce((total, token) => total + (text.includes(token) ? 1 : 0), 0);
+      };
+      return score(b) - score(a);
+    });
+    const results = [...localResults, ...onlineResults];
+    return { query: normalizedQuery, results, error: results.length ? "" : "Keine passenden Nährwerte gefunden." };
+  } catch (error) {
+    console.error("Die Online-Suche lieferte keine gültigen Produktdaten.", error);
+    return { query: normalizedQuery, results: localResults, error: "Die Online-Suche lieferte unlesbare Daten." };
+  }
+}
+
+async function searchOnlineFoods(queries, alreadyAdded = 0) {
+  const uniqueQueries = [...new Set(queries.map((query) => query.trim()).filter(Boolean))];
+  if (!uniqueQueries.length) {
+    showToast("Ich konnte keine einzelnen Lebensmittel heraushören. Versuch es mit Namen und Mengen, zum Beispiel „2 Eier und 1 Döner“.");
+    return;
+  }
+  const searchLimit = 6;
+  const searchedQueries = uniqueQueries.slice(0, searchLimit);
+  const skippedQueries = uniqueQueries.slice(searchLimit);
+  showToast(`Suche ${searchedQueries.length} ${searchedQueries.length === 1 ? "Gericht" : "Gerichte"} online …`);
+  const groups = await Promise.all(searchedQueries.map(requestOnlineFood));
+  const matchingGroups = groups.filter((group) => group.results.length);
+  if (!matchingGroups.length) {
+    const failed = groups.map((group) => group.error).find(Boolean);
+    showToast(skippedQueries.length ? `Zu viele einzelne Gerichte. Nicht gesucht: ${skippedQueries.join(", ")}.` : failed || "Keine passenden Online-Treffer gefunden.");
+    openCustomFoodDialog([...searchedQueries, ...skippedQueries].join(", "), alreadyAdded);
+    return;
+  }
+  const unavailableQueries = groups.filter((group) => !group.results.length).map((group) => group.query);
+  const notFound = [...unavailableQueries, ...skippedQueries];
+  if (unavailableQueries.length) showToast(`Keine Treffer für: ${unavailableQueries.join(", ")}. Du kannst die übrigen Treffer auswählen.`);
+  if (skippedQueries.length) showToast(`Nicht gesucht: ${skippedQueries.join(", ")}. Die übrigen Treffer kannst du auswählen.`);
+  openOnlineFoodResults(matchingGroups, alreadyAdded, notFound);
+}
+
+function portionForQuery(query, item) {
+  if (item.source === "local" && item.servingSize.includes("pro Keks")) {
+    const count = query.match(/\b(\d+(?:[.,]\d+)?)\s*(?:oreo[- ]*)?kekse?\b/i);
+    if (count) {
+      const grams = Number(count[1].replace(",", ".")) * 11;
+      if (Number.isFinite(grams) && grams > 0 && grams <= 5000) return grams;
+    }
+  }
+  const explicit = query.match(/\b(\d+(?:[.,]\d+)?)\s*(g|gramm|kg)\b/i);
+  if (explicit) {
+    const amount = Number(explicit[1].replace(",", "."));
+    const grams = explicit[2].toLocaleLowerCase("de-DE") === "kg" ? amount * 1000 : amount;
+    if (Number.isFinite(grams) && grams > 0 && grams <= 5000) return grams;
+  }
+  const packageWeight = (item.servingSize || item.quantity).match(/\b(\d+(?:[.,]\d+)?)\s*(g|gramm|kg)\b/i);
+  if (packageWeight) {
+    const amount = Number(packageWeight[1].replace(",", "."));
+    const grams = packageWeight[2].toLocaleLowerCase("de-DE") === "kg" ? amount * 1000 : amount;
+    if (Number.isFinite(grams) && grams > 0 && grams <= 5000) return grams;
+  }
+  return 100;
+}
+
+function openOnlineFoodResults(groups, alreadyAdded, notFound) {
+  const selected = new Map();
+  groups.forEach((group, groupIndex) => {
+    if (group.results.length) selected.set(String(groupIndex), { candidateIndex: 0, item: group.results[0] });
+  });
+  const sections = groups.map((group, groupIndex) => {
+    const rows = group.results.slice(0, 6).map((item, candidateIndex) => {
+      const nutrition = item.nutrition;
+      const grams = portionForQuery(group.query, item);
+      const portionFactor = grams / 100;
+      const label = [item.brand, item.quantity].filter(Boolean).join(" · ");
+      const productUrl = item.code ? `https://world.openfoodfacts.org/product/${encodeURIComponent(item.code)}` : "https://world.openfoodfacts.org/";
+      const isSelected = candidateIndex === 0;
+      return `<article class="online-food-result${isSelected ? " selected" : ""}" data-food-option="${groupIndex}-${candidateIndex}">
+        <div class="online-food-copy"><strong>${escapeHtml(item.name)}</strong>${label ? `<small>${escapeHtml(label)}</small>` : ""}
+          <span>${Math.round(nutrition.kcal)} kcal / 100 g · Eiweiß ${format(nutrition.protein)} g · KH ${format(nutrition.carbs)} g · Fett ${format(nutrition.fat)} g</span>
+            <label class="online-food-portion">Deine Menge (g)<input type="number" min="1" max="5000" step="1" value="${grams}" data-food-portion="${groupIndex}-${candidateIndex}"></label>
+        </div>
+        <div class="online-food-actions">${item.source === "local" ? "<span>Lokaler Richtwert</span>" : `<a href="${productUrl}" target="_blank" rel="noopener noreferrer">Quelle</a>`}<button class="dialog-secondary" type="button" data-online-food="${groupIndex}-${candidateIndex}" aria-pressed="${isSelected}">${isSelected ? "Ausgewählt" : "Auswählen"}</button></div>
+      </article>`;
+    }).join("");
+    return `<section class="online-food-group"><h3>${escapeHtml(group.query)}</h3>${rows}</section>`;
+  }).join("");
+  const knownNote = alreadyAdded
+    ? `${alreadyAdded} bekannte ${alreadyAdded === 1 ? "Zutat wurde" : "Zutaten wurden"} bereits eingetragen.`
+    : "";
+  const missingNote = notFound.length ? `<p class="dialog-copy">Nicht gefunden oder nicht gesucht: ${escapeHtml(notFound.join(", "))}. Diese kannst du anschließend manuell ergänzen.</p>` : "";
+  const manualLabel = notFound.length ? "Fehlende Gerichte manuell" : "Eigenes Gericht ergänzen";
+  openDialog("Lebensmittel prüfen", "online-food-results",
+    `<p class="dialog-copy">${knownNote} Wähle für jedes Gericht einen passenden Treffer und prüfe die Portion. Online-Nährwerte stammen aus nutzergepflegten Produktdaten je 100 g; lokale Richtwerte sind Schätzungen. Dein Suchbegriff wird für Online-Treffer an Open Food Facts gesendet.</p>${missingNote}<div class="online-food-list">${sections}</div><p class="online-food-attribution">Online-Datenquelle: <a href="https://world.openfoodfacts.org/" target="_blank" rel="noopener noreferrer">Open Food Facts</a> · kein API-Key nötig.</p>`,
+    `<button class="dialog-secondary" type="button" id="online-food-manual">${manualLabel}</button><span class="dialog-spacer"></span><button class="dialog-primary" type="button" id="online-food-add">Auswahl eintragen (${selected.size})</button>`);
+  $("#online-food-manual").addEventListener("click", () => {
+    const entries = createSelectedOnlineFoodEntries(groups, selected);
+    if (!entries) return;
+    if (entries.length) {
+      state.meals.push(...entries);
+      saveState();
+      render();
+    }
+    const manualQueries = notFound.length ? notFound : groups.map((group) => group.query);
+    openCustomFoodDialog(manualQueries.join(", "), alreadyAdded + entries.length);
+  });
+  $("#dialog-content").querySelectorAll("[data-online-food]").forEach((button) => button.addEventListener("click", () => {
+    const [groupIndex, candidateIndex] = button.dataset.onlineFood.split("-").map(Number);
+    const key = String(groupIndex);
+    if (selected.has(key) && selected.get(key).candidateIndex === candidateIndex) selected.delete(key);
+    else selected.set(key, { candidateIndex, item: groups[groupIndex].results[candidateIndex] });
+    $("#dialog-content").querySelectorAll(`[data-online-food^="${groupIndex}-"]`).forEach((option) => {
+      const isSelected = Number(option.dataset.onlineFood.split("-")[1]) === selected.get(key)?.candidateIndex;
+      option.setAttribute("aria-pressed", String(isSelected));
+      option.textContent = isSelected ? "Ausgewählt" : "Auswählen";
+      option.classList.toggle("selected", isSelected);
+    });
+    const addButton = $("#online-food-add");
+    addButton.textContent = `Auswahl eintragen (${selected.size})`;
+  }));
+  $("#online-food-add").addEventListener("click", () => {
+    const entries = createSelectedOnlineFoodEntries(groups, selected);
+    if (!entries) return;
+    state.meals.push(...entries);
+    $("#food-input").value = "";
+    saveState();
+    render();
+    closeDialog();
+    showToast(`${entries.length} ${entries.length === 1 ? "Gericht" : "Gerichte"} eingetragen.`);
+  });
+}
+
+function createSelectedOnlineFoodEntries(groups, selected) {
+  const now = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" }).format(new Date());
+  const entries = [];
+  for (const [groupIndex, choice] of selected) {
+    const gramsInput = $(`[data-food-portion="${groupIndex}-${choice.candidateIndex}"]`);
+    const grams = Number(gramsInput.value);
+    if (!Number.isFinite(grams) || grams < 1 || grams > 5000) {
+      showToast("Bitte prüfe die Portionsmenge. Erlaubt sind 1 bis 5.000 g.");
+      gramsInput.focus();
+      return null;
+    }
+    const factor = grams / 100;
+    entries.push({
+      name: choice.item.name,
+      icon: "🍽️",
+      amount: `${format(grams)} g`,
+      ...Object.fromEntries(Object.entries(choice.item.nutrition).map(([key, value]) => [key, value * factor])),
+      time: now
+    });
+  }
+  return entries;
+}
+
+function openCustomFoodDialog(name, alreadyAdded = 0) {
+  const note = alreadyAdded
+    ? `${alreadyAdded} bekannte ${alreadyAdded === 1 ? "Zutat wurde" : "Zutaten wurden"} bereits eingetragen. Für den Rest kannst du die Nährwerte selbst ergänzen.`
+    : "Trag die Nährwerte für deine Portion ein; sie sind nur so genau wie die Angaben auf deiner Verpackung.";
+  const amountMatch = name.match(/\b(\d+(?:[.,]\d+)?)\s*(g|gramm|kg)\b/i);
+  const portion = amountMatch
+    ? `${format(Number(amountMatch[1].replace(",", ".")) * (amountMatch[2].toLocaleLowerCase("de-DE") === "kg" ? 1000 : 1))} g`
+    : "1 Portion";
+  const nameWithCapitalization = name.replace(/(^|,\s*)([a-zäöüß])/gi, (match, separator, letter) => `${separator}${letter.toLocaleUpperCase("de-DE")}`);
+  openDialog("Eigenes Lebensmittel", "custom-food", `<p class="dialog-copy">${note} Dafür wird kein Konto und kein API-Schlüssel benötigt.</p>
+    <label class="dialog-field">Lebensmittel<input name="name" maxlength="100" required value="${escapeHtml(nameWithCapitalization)}"></label>
+    <label class="dialog-field">Menge<input name="amount" maxlength="60" required value="${escapeHtml(portion)}"></label>
+    <div class="dialog-field-grid">${[
+      ["kcal", "Kalorien (kcal)"], ["protein", "Eiweiß (g)"], ["carbs", "Kohlenhydrate (g)"],
+      ["fat", "Fett (g)"], ["sugar", "Zucker (g)"], ["salt", "Salz (g)"], ["fiber", "Ballaststoffe (g)"]
+    ].map(([key, label]) => `<label class="dialog-field">${label}<input name="${key}" type="number" min="0" max="5000" step="any" required value="0"></label>`).join("")}</div>`,
+  '<button class="dialog-secondary" type="submit" value="cancel">Abbrechen</button><button class="dialog-primary" type="submit" value="save">Eintragen</button>');
 }
 
 function openDialog(title, mode, content, actions) {
@@ -292,6 +598,16 @@ $("#dialog-form").addEventListener("submit", (event) => {
     if (!meal.name || !meal.amount || keys.some((key) => !Number.isFinite(meal[key]) || meal[key] < 0)) { showToast("Bitte prüfe Name, Menge und Nährwerte."); return; }
     state.meals[index] = meal;
     saveState(); render(); closeDialog(); showToast("Eintrag aktualisiert."); return;
+  }
+  if (mode === "custom-food") {
+    const keys = ["kcal", "protein", "carbs", "fat", "sugar", "salt", "fiber"];
+    const meal = { name: String(values.get("name")).trim(), amount: String(values.get("amount")).trim(), icon: "🍽️" };
+    for (const key of keys) meal[key] = Number(values.get(key));
+    if (!meal.name || !meal.amount || keys.some((key) => !Number.isFinite(meal[key]) || meal[key] < 0 || meal[key] > 5000)) { showToast("Bitte prüfe Name, Menge und Nährwerte."); return; }
+    meal.time = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" }).format(new Date());
+    state.meals.push(meal);
+    $("#food-input").value = "";
+    saveState(); render(); closeDialog(); showToast("Eigenes Lebensmittel eingetragen."); return;
   }
   if (mode === "profile") {
     const profile = {
@@ -429,18 +745,117 @@ document.querySelectorAll("[data-view]").forEach((button) => button.addEventList
   } else main.scrollTo({ top: 0, behavior: "smooth" });
 }));
 
-$("#voice-button").addEventListener("click", () => {
+let activeRecognition;
+let voiceTranscriptReady = false;
+let voiceSetupInProgress = false;
+const voiceButton = $("#voice-button");
+function setVoiceListening(isListening) {
+  voiceButton.classList.toggle("is-listening", isListening);
+  voiceButton.setAttribute("aria-pressed", String(isListening));
+  voiceButton.setAttribute("aria-label", isListening ? "Spracheingabe beenden" : "Spracheingabe starten");
+  voiceButton.querySelector("span").textContent = isListening ? "Stopp" : "Sprache";
+  voiceButton.title = isListening ? "Spracheingabe beenden" : "Spracheingabe starten";
+}
+voiceButton.addEventListener("click", async () => {
+    if (activeRecognition) {
+      try { activeRecognition.stop(); }
+      catch (error) {
+        console.error("Spracheingabe konnte nicht beendet werden.", error);
+        activeRecognition = null;
+        setVoiceListening(false);
+        showToast("Spracheingabe konnte nicht beendet werden. Versuch es bitte erneut.");
+      }
+      return;
+    }
+  if (voiceSetupInProgress) return;
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) { showToast("Spracheingabe wird von diesem Browser nicht unterstützt."); return; }
+  if (!SpeechRecognition) {
+    $("#input-hint").textContent = "Direkte Spracheingabe wird hier nicht unterstützt. Nutze das Diktier-Mikrofon deiner Tastatur.";
+    $("#food-input").focus();
+    showToast("Nutze zum Diktieren das Mikrofon-Symbol auf deiner Tastatur.");
+    return;
+  }
+  if (!window.isSecureContext && !["localhost", "127.0.0.1"].includes(location.hostname)) {
+    showToast("Spracheingabe funktioniert nur über HTTPS oder localhost.");
+    return;
+  }
+  voiceSetupInProgress = true;
+  voiceButton.disabled = true;
+  let processLocally = false;
+  if (typeof SpeechRecognition.available === "function" && typeof SpeechRecognition.install === "function") {
+    try {
+      const availability = await SpeechRecognition.available({ langs: ["de-DE"], processLocally: true });
+      if (availability === "available") {
+        processLocally = true;
+      } else if (availability === "downloadable") {
+        $("#input-hint").textContent = "Offline-Sprachpaket für Deutsch wird vorbereitet …";
+        processLocally = await SpeechRecognition.install({ langs: ["de-DE"] });
+        if (!processLocally) console.info("Das Offline-Sprachpaket für Deutsch konnte nicht installiert werden.");
+      }
+    } catch (error) {
+      console.info("Offline-Spracherkennung ist nicht verfügbar; verwende die Browser-Spracherkennung.", error);
+    }
+  }
+  voiceSetupInProgress = false;
+  voiceButton.disabled = false;
   const recognition = new SpeechRecognition();
+  activeRecognition = recognition;
   recognition.lang = "de-DE";
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
-  $("#input-hint").textContent = "Ich höre zu …";
-  recognition.onresult = (event) => { $("#food-input").value = event.results[0][0].transcript; $("#input-hint").textContent = "Prüfe die Erkennung und tippe auf „Auswerten“."; };
-  recognition.onerror = (event) => { $("#input-hint").textContent = "Spracheingabe nicht verfügbar."; showToast(`Spracheingabe: ${event.error}`); };
-  recognition.onend = () => { if ($("#input-hint").textContent === "Ich höre zu …") $("#input-hint").textContent = "Sprich natürlich – ich teile dein Essen in einzelne Zutaten auf."; };
-  recognition.start();
+  if (processLocally) recognition.processLocally = true;
+  recognition.onstart = () => {
+    setVoiceListening(true);
+    $("#input-hint").textContent = "Ich höre zu … Tippe auf „Stopp“, wenn du fertig bist.";
+  };
+  recognition.onresult = (event) => {
+    const transcript = event.results?.[event.resultIndex]?.[0]?.transcript;
+    if (!transcript) return;
+    $("#food-input").value = transcript;
+    voiceTranscriptReady = true;
+    $("#input-hint").textContent = "Erkannt – ich teile die Mahlzeit in Gerichte auf und suche Unbekanntes.";
+  };
+  recognition.onerror = (event) => {
+    activeRecognition = null;
+    voiceTranscriptReady = false;
+    setVoiceListening(false);
+    const messages = {
+      "not-allowed": "Mikrofonzugriff verweigert. Erlaube den Zugriff in den Browser-Einstellungen.",
+      "service-not-allowed": "Der Spracherkennungsdienst ist in diesem Browser gesperrt.",
+      "audio-capture": "Kein Mikrofon gefunden. Prüfe die Mikrofonverbindung.",
+      "no-speech": "Ich habe nichts gehört. Versuch es noch einmal.",
+      network: "Der Browser-Sprachdienst ist nicht erreichbar. Unter Windows: Eingabefeld antippen und Win+H drücken; am Handy das Mikrofon der Tastatur nutzen oder die Mahlzeit eintippen.",
+      aborted: "Spracheingabe beendet."
+    };
+    const message = messages[event.error] || "Spracheingabe konnte nicht gestartet werden.";
+    $("#input-hint").textContent = event.error === "network"
+      ? "Browser-Sprachdienst nicht erreichbar. Das Eingabefeld ist bereit: Unter Windows Win+H drücken, am Handy das Tastatur-Mikrofon nutzen oder die Mahlzeit eintippen."
+      : message;
+    if (event.error === "network") $("#food-input").focus({ preventScroll: true });
+    if (event.error !== "aborted") showToast(messages[event.error] || `Spracheingabe fehlgeschlagen (${event.error}).`);
+  };
+  recognition.onend = () => {
+    activeRecognition = null;
+    setVoiceListening(false);
+    if (voiceTranscriptReady) {
+      voiceTranscriptReady = false;
+      $("#food-form").requestSubmit();
+      return;
+    }
+    if ($("#input-hint").textContent.startsWith("Ich höre zu")) $("#input-hint").textContent = "Keine Sprache erkannt. Tippe auf das Mikrofon und versuche es erneut.";
+  };
+  try {
+    setVoiceListening(true);
+    $("#input-hint").textContent = "Ich höre zu … Tippe auf „Stopp“, wenn du fertig bist.";
+    recognition.start();
+  } catch (error) {
+    activeRecognition = null;
+    voiceTranscriptReady = false;
+    setVoiceListening(false);
+    $("#input-hint").textContent = "Spracheingabe konnte nicht gestartet werden.";
+    console.error("Spracheingabe konnte nicht gestartet werden.", error);
+    showToast("Mikrofon nicht verfügbar. Prüfe Berechtigung und Browser.");
+  }
 });
 
 let toastTimeout;
